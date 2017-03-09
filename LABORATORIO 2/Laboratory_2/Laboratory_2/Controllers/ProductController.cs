@@ -16,11 +16,19 @@ namespace Laboratory_2.Controllers
         {
             return View();
         }
+
+        public ActionResult UploadProduct()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public ActionResult UploadProduct(HttpPostedFileBase file)
         {
             try
             {
+                if (file == null) return View("UploadProduct", Session["session"]);
+
                 BinaryReader b = new BinaryReader(file.InputStream);
                 byte[] binData = b.ReadBytes(file.ContentLength);
 
@@ -35,13 +43,13 @@ namespace Laboratory_2.Controllers
                         ProductID = int.Parse(Result[i].Trim()),
                         ProductDescription = Result[i + 1].Trim(),
                         ProductPrize = double.Parse(Result[i + 2].Trim()),
-                        ProductCount = int.Parse(Result[i + 3].Trim())
+                        ProductCount = long.Parse(Result[i + 3].Trim())
 
                     });
                     Singleton.Instance.ProductsBinaryTree.Add(newProduct);
                 }
 
-                return View("Index");
+                return View("Index", Session["session"]);
             }
             catch
             {

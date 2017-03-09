@@ -61,8 +61,8 @@ namespace Laboratory_2.UtilitiesClass
 
         public int CompareTo(T other)
         {
-           /* if (other == null) return 1;
-            if (other.GetType() != GetType())
+            if (other == null) return 1;
+            /*if (other.GetType() != GetType())
                 return -1;
             return data.CompareTo(other.data);
             */

@@ -12,14 +12,17 @@ namespace Laboratory_2.Models
         [Required]
         public int ProductID { get; set; }
 
+        [Required]
         [Display(Name = "Descripcion")]
         public string ProductDescription { get; set; }
 
+        [Required]
         [Display(Name = "Precio")]
         public double ProductPrize { get; set; }
 
+        [Required]
         [Display(Name = "Cantidad en inventario")]
-        public int ProductCount { get; set; }
+        public long ProductCount { get; set; }
 
 
     }
