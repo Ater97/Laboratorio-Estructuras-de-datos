@@ -7,7 +7,7 @@ using System.Web;
 namespace Laboratory_2.UtilitiesClass
 {
     // public class BinaryTree<T> : IEnumerable<T> where T : IComparable<T>
-    public class BinaryTree<T>
+    public class BinaryTree<T> 
     {
         private Node<T> Root;
         static int count = 0;
@@ -31,13 +31,13 @@ namespace Laboratory_2.UtilitiesClass
             }
             count++;
         }
-        private void Insert (Node<T> item, Node<T> currentRoot)
+        private void Insert(Node<T> item, Node<T> currentRoot)
         {
+            int ComparedValue = currentRoot.CompareTo(item.data);
 
-     
-            if (item.data.CompareTo(Root.data) > 0)
+            if ( ComparedValue > 0)
             {
-                if (currentRoot.right==null)
+                if (currentRoot.right == null)
                 {
                     currentRoot.right = item;
                 }
@@ -58,15 +58,16 @@ namespace Laboratory_2.UtilitiesClass
                 }
             }
         }
-
-        public int CompareTo(T other)
+        public int CompareTo(T item)
         {
-            if (other == null) return 1;
+
+            if (item == null) return 0;
+            
             /*if (other.GetType() != GetType())
                 return -1;
             return data.CompareTo(other.data);
             */
-             throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Clear()
@@ -89,10 +90,21 @@ namespace Laboratory_2.UtilitiesClass
             throw new NotImplementedException();
         }
 
-       /* IEnumerator IEnumerable.GetEnumerator()
+        public int GetHashCode(T obj)
         {
             throw new NotImplementedException();
         }
-        */
+
+        /*  public int GetHashCode(Thing obj)
+           {
+               throw new NotImplementedException();
+           }
+           */
+
+        /* IEnumerator IEnumerable.GetEnumerator()
+         {
+             throw new NotImplementedException();
+         }
+         */
     }
 }

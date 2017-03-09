@@ -14,7 +14,9 @@ namespace Laboratory_2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            return View();
+            
+          return View(Singleton.Instance.ProductsBinaryTree);
+            
         }
 
         public ActionResult UploadProduct()
@@ -25,9 +27,10 @@ namespace Laboratory_2.Controllers
         [HttpPost]
         public ActionResult UploadProduct(HttpPostedFileBase file)
         {
+           // Singleton.Instance.ProductsBinaryTree = (BinaryTree<ProductModel>)Session["products"];
             try
             {
-                if (file == null) return View("UploadProduct", Session["session"]);
+              //  if (file == null) return View("UploadProduct", Session["products"]);
 
                 BinaryReader b = new BinaryReader(file.InputStream);
                 byte[] binData = b.ReadBytes(file.ContentLength);
@@ -49,7 +52,7 @@ namespace Laboratory_2.Controllers
                     Singleton.Instance.ProductsBinaryTree.Add(newProduct);
                 }
 
-                return View("Index", Session["session"]);
+                return View("Index");
             }
             catch
             {

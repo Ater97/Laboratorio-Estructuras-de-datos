@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Laboratory_2.UtilitiesClass
 {
-    public class Node<T>
+    public class Node<T> : IComparable<T>
     {
         public T data { get; set; }
         public Node<T> left { get; set; }
@@ -18,6 +18,11 @@ namespace Laboratory_2.UtilitiesClass
             left = null;
             right = null;
 
+        }
+
+        public int CompareTo(T other)
+        {
+            throw new NotImplementedException();
         }
     }
 
