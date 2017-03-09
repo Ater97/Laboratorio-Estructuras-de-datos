@@ -51,3 +51,6 @@ C:\Users\sebas\Documents\GitHub\Laboratorio-Estructuras-de-datos\LABORATORIO 2\L
 C:\Users\sebas\Documents\GitHub\Laboratorio-Estructuras-de-datos\LABORATORIO 2\Laboratory_2\Laboratory_2\bin\Newtonsoft.Json.xml
 C:\Users\sebas\Documents\GitHub\Laboratorio-Estructuras-de-datos\LABORATORIO 2\Laboratory_2\Laboratory_2\obj\Debug\Laboratory_2.dll
 C:\Users\sebas\Documents\GitHub\Laboratorio-Estructuras-de-datos\LABORATORIO 2\Laboratory_2\Laboratory_2\obj\Debug\Laboratory_2.pdb
+C:\Users\bryan\Documents\Visual Studio 2015\Projects\Laboratorio 2\LABORATORIO 2\Laboratory_2\Laboratory_2\obj\Debug\Laboratory_2.csprojResolveAssemblyReference.cache
+C:\Users\bryan\Documents\Visual Studio 2015\Projects\Laboratorio 2\LABORATORIO 2\Laboratory_2\Laboratory_2\obj\Debug\Laboratory_2.dll
+C:\Users\bryan\Documents\Visual Studio 2015\Projects\Laboratorio 2\LABORATORIO 2\Laboratory_2\Laboratory_2\obj\Debug\Laboratory_2.pdb

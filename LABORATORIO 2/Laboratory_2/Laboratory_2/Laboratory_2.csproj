@@ -157,6 +157,7 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilitiesClass\BinaryTree.cs" />
+    <Compile Include="UtilitiesClass\MyBinaryTree.cs" />
     <Compile Include="UtilitiesClass\Node.cs" />
     <Compile Include="UtilitiesClass\Singleton.cs" />
   </ItemGroup>
