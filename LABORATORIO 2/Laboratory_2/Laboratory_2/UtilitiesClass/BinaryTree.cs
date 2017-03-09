@@ -7,7 +7,7 @@ using System.Web;
 namespace Laboratory_2.UtilitiesClass
 {
     // public class BinaryTree<T> : IEnumerable<T> where T : IComparable<T>
-    public class BinaryTree<T> : IComparable<T>
+    public class BinaryTree<T> 
     {
         private Node<T> Root;
         static int count = 0;
