@@ -21,8 +21,10 @@ namespace Laboratory_2.UtilitiesClass
                 return _instance;
             }
         }
-        public BinaryTree<ProductModel> ProductsBinaryTree = new BinaryTree<ProductModel>();
-        public BinaryTree<BillsModel> BillsBinaryTree = new BinaryTree<BillsModel>();
+        public MyBinaryTree<ProductModel> ProductsBinaryTree = new MyBinaryTree<ProductModel>();
+        public MyBinaryTree<BillsModel> BillsBinaryTree = new MyBinaryTree<BillsModel>();
 
+    
+       
     }
 }

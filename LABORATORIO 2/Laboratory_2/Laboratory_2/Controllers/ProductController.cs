@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Laboratory_2.Models;
 using Laboratory_2.UtilitiesClass;
 
+
 namespace Laboratory_2.Controllers
 {
     public class ProductController : Controller
@@ -14,9 +15,9 @@ namespace Laboratory_2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            
-          return View(Singleton.Instance.ProductsBinaryTree);
-            
+
+            // return View((IEnumerable<ProductModel>)Singleton.Instance.ProductsBinaryTree);
+            return View(Singleton.Instance.ProductsBinaryTree);
         }
 
         public ActionResult UploadProduct()
@@ -30,7 +31,7 @@ namespace Laboratory_2.Controllers
            // Singleton.Instance.ProductsBinaryTree = (BinaryTree<ProductModel>)Session["products"];
             try
             {
-              //  if (file == null) return View("UploadProduct", Session["products"]);
+               if (file == null) return View("UploadProduct");
 
                 BinaryReader b = new BinaryReader(file.InputStream);
                 byte[] binData = b.ReadBytes(file.ContentLength);
@@ -79,7 +80,15 @@ namespace Laboratory_2.Controllers
             try
             {
                 // TODO: Add insert logic here
+                ProductModel newProduct = (new ProductModel
+                {
+                    ProductID = int.Parse(collection["ProductID"]),
+                    ProductDescription = collection[" ProductDescription"],
+                    ProductPrize = double.Parse(collection["ProductPrize"]),
+                    ProductCount = long.Parse(collection["ProductCount"])
 
+                });
+                Singleton.Instance.ProductsBinaryTree.Add(newProduct);
                 return RedirectToAction("Index");
             }
             catch
@@ -101,15 +110,29 @@ namespace Laboratory_2.Controllers
             try
             {
                 // TODO: Add update logic here
+                Edit (id, new ProductModel
+                {
+                    ProductID = int.Parse(collection["ProductID"]),
+                    ProductDescription = collection[" ProductDescription"],
+                    ProductPrize = double.Parse(collection["ProductPrize"]),
+                    ProductCount = long.Parse(collection["ProductCount"])
 
+                });
                 return RedirectToAction("Index");
+
             }
             catch
             {
                 return View();
             }
         }
-
+        public void Edit(int id, ProductModel newModel)
+        {
+            for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.getCount(); i++)
+            {
+                //Buscar ID, igualar nodo con newModel
+            }
+        }
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {

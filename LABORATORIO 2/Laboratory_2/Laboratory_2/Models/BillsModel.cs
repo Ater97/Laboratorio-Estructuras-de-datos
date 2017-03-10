@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Laboratory_2.Models
 {
-    public class BillsModel
+    public class BillsModel: IComparable<BillsModel>
     {
         
         public char Serie { get; set; }
@@ -30,7 +30,15 @@ namespace Laboratory_2.Models
         [Display(Name = "Descripción de la compra")]
         public string BillDescription { get; set; }
 
-       
         public double Total { get; set; }
+
+        public int CompareTo(BillsModel other)
+        {
+            if (Serie >= other.Serie)
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 }

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "UploadProduct";
+}
+
+<h2>UploadProduct</h2>
+
+@using (Html.BeginForm("UploadProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <button type="submit">Subir archivo</button>
+}
+<p>
+    @Html.ActionLink("Regresar", "Index")
+</p>
