@@ -9,6 +9,7 @@ namespace Laboratory_2.UtilitiesClass
     {
         private T value;
 
+        public TreeNode<T> padre;
         public TreeNode<T> left;
         public TreeNode<T> right;
 
@@ -23,6 +24,16 @@ namespace Laboratory_2.UtilitiesClass
             {
                 this.value = value;
             }
+        }
+
+        public TreeNode<T> GetPadre()
+        {
+            return this.padre;
+        }
+
+        public void SetPadre(TreeNode<T> Padre)
+        {
+            this.padre = Padre;
         }
 
         public TreeNode<T> GetLeft()
