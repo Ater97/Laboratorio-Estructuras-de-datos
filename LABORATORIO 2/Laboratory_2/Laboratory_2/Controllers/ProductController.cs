@@ -15,8 +15,6 @@ namespace Laboratory_2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-
-            // return View((IEnumerable<ProductModel>)Singleton.Instance.ProductsBinaryTree);
             return View(Singleton.Instance.ProductsBinaryTree);
         }
 
@@ -28,7 +26,6 @@ namespace Laboratory_2.Controllers
         [HttpPost]
         public ActionResult UploadProduct(HttpPostedFileBase file)
         {
-           // Singleton.Instance.ProductsBinaryTree = (BinaryTree<ProductModel>)Session["products"];
             try
             {
                if (file == null) return View("UploadProduct");
@@ -53,7 +50,7 @@ namespace Laboratory_2.Controllers
                     Singleton.Instance.ProductsBinaryTree.Add(newProduct);
                 }
 
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {
