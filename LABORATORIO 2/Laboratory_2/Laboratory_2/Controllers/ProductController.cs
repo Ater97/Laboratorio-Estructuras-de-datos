@@ -164,13 +164,19 @@ namespace Laboratory_2.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                DeleteProduct(id);
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+        }
+        private bool DeleteProduct(int id)
+        {
+            TreeNode<ProductModel> Product = Singleton.Instance.ProductsBinaryTree.Search<int>(Comparar, id);
+            Singleton.Instance.ProductsBinaryTree.Eliminate(Product);
+            return false;
         }
         private double VerverifyLenght(double number)
         {
