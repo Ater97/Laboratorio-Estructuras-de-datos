@@ -61,6 +61,7 @@ namespace Laboratory_2.Controllers
             }
 
         }
+
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
@@ -110,14 +111,9 @@ namespace Laboratory_2.Controllers
             try
             {
                 // TODO: Add update logic here
-                Edit (id, new ProductModel
-                {
-                    ProductID = int.Parse(collection["ProductID"]),
-                    ProductDescription = collection["ProductDescription"],
-                    ProductPrize = double.Parse(collection["ProductPrize"]),
-                    ProductCount = long.Parse(collection["ProductCount"])
+                
 
-                });
+
                 return RedirectToAction("Index");
 
             }
