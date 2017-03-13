@@ -37,6 +37,11 @@ namespace Laboratory_2.UtilitiesClass
             return false;
         }
 
+        public int GetCount()
+        {
+            return this.count;
+        }
+
         private void SetRoot(TreeNode<T> root)
         {
             this.root = root;
@@ -465,26 +470,42 @@ namespace Laboratory_2.UtilitiesClass
 
         private IEnumerable<TreeNode<T>> Traversal(TreeNode<T> Node)
         {
-            if (Node.GetLeft() != null)
+            if(Node != null)
             {
-                foreach (TreeNode<T> LeftNode in Traversal(Node.GetLeft()))
-                    yield return LeftNode;
+                if (Node.GetLeft() != null)
+                {
+                    foreach (TreeNode<T> LeftNode in Traversal(Node.GetLeft()))
+                        yield return LeftNode;
+                }
+
+                yield return Node;
+
+                if (Node.GetRight() != null)
+                {
+                    foreach (TreeNode<T> RightNode in Traversal(Node.GetRight()))
+                        yield return RightNode;
+                }
+            }
+            else
+            {
+                yield return null;
             }
 
-            yield return Node;
-
-            if (Node.GetRight() != null)
-            {
-                foreach (TreeNode<T> RightNode in Traversal(Node.GetRight()))
-                    yield return RightNode;
-            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             foreach (TreeNode<T> TempNode in Traversal(root))
             {
-                yield return TempNode.Value;
+                if(TempNode != null)
+                {
+                    yield return TempNode.Value;
+                }
+                else
+                {
+                    yield return default(T);
+                }
+                
             }
         }
 

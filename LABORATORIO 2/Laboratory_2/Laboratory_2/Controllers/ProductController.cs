@@ -83,7 +83,7 @@ namespace Laboratory_2.Controllers
                 ProductModel newProduct = (new ProductModel
                 {
                     ProductID = int.Parse(collection["ProductID"]),
-                    ProductDescription = collection[" ProductDescription"],
+                    ProductDescription = collection["ProductDescription"],
                     ProductPrize = double.Parse(collection["ProductPrize"]),
                     ProductCount = long.Parse(collection["ProductCount"])
 
@@ -113,7 +113,7 @@ namespace Laboratory_2.Controllers
                 Edit (id, new ProductModel
                 {
                     ProductID = int.Parse(collection["ProductID"]),
-                    ProductDescription = collection[" ProductDescription"],
+                    ProductDescription = collection["ProductDescription"],
                     ProductPrize = double.Parse(collection["ProductPrize"]),
                     ProductCount = long.Parse(collection["ProductCount"])
 
@@ -126,9 +126,10 @@ namespace Laboratory_2.Controllers
                 return View();
             }
         }
+
         public void Edit(int id, ProductModel newModel)
         {
-            for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.getCount(); i++)
+            for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.GetCount(); i++)
             {
                 //Buscar ID, igualar nodo con newModel
             }
