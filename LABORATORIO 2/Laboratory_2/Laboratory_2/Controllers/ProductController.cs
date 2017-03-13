@@ -62,7 +62,7 @@ namespace Laboratory_2.Controllers
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(SearchElement(id));
         }
 
         // GET: Product/Create
