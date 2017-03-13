@@ -24,7 +24,7 @@ namespace Laboratory_2.Models
 
         public int CompareTo(ProductModel other)
         {
-            if(ProductID >= other.ProductID)
+            if(ProductID < other.ProductID)
             {
                 return 1;
             }

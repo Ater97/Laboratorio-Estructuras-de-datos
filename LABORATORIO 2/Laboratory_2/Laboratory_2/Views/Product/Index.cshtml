@@ -5,12 +5,21 @@
 }
 
 <h2>Index</h2>
-<p>
-    @Html.ActionLink("Subir archivo", "UploadProduct")
-</p>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+<div>
+    <p>
+        @Html.ActionLink("Subir archivo", "UploadProduct")
+    </p>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+</div>
+
+<div>
+    <h3>@ViewBag.Message</h3>
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -42,11 +51,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProductCount)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+
+        @if (item != null)
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            </td>
+        }
+        
     </tr>
 }
 

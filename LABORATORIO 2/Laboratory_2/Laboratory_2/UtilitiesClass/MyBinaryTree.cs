@@ -381,6 +381,58 @@ namespace Laboratory_2.UtilitiesClass
 
         #endregion
 
+        #region Edit Element
+
+        public bool Edit<E>(Compare<E> compare, E element, T Item)
+        {
+            return EditElement(root, compare, element, Item);
+        }
+
+        /// <summary>
+        /// Función que permite realizar cambios en el nodo deseado.
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="node"> Raiz del árbol. </param>
+        /// <param name="condicion"> Delegado que determina como buscar el nodo. </param>
+        /// <param name="element"> Parametro por el cual se busca el nodo. </param>
+        /// <param name="Item"> Elemento ya editado. </param>
+        /// <returns> True/False dependiento si pudo hacer la edición o no. </returns>
+        private bool EditElement<E>(TreeNode<T> node, Compare<E> condicion, E element, T Item)
+        {
+            if (condicion(node.Value, element) == 0)
+            {
+                node.Value = Item;
+                return true;
+            }
+            else
+            {
+                if (condicion(node.Value, element) > 0)
+                {
+                    if (node.GetLeft() == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                       return EditElement(node.GetLeft(), condicion, element, Item);
+                    }
+                }
+                else
+                {
+                    if (node.GetRight() == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return EditElement(node.GetRight(), condicion, element, Item);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region Tours of the Tree
 
         /// <summary>

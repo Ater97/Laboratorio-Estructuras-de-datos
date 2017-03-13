@@ -98,7 +98,7 @@ namespace Laboratory_2.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(SearchElement(id));
         }
 
         // POST: Product/Edit/5
@@ -107,26 +107,50 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-                
+                ProductModel item = new ProductModel();
+                item.ProductID = id;
+                item.ProductDescription = collection["ProductDescription"];
+                item.ProductPrize = double.Parse(collection["ProductPrize"]);
+                item.ProductCount = long.Parse(collection["ProductCount"]);
 
-
+                if(Singleton.Instance.ProductsBinaryTree.Edit<int>(Comparar, id, item))
+                {
+                    ViewBag.Message = "Se ha editado el elemento correctamente.";
+                }
+                else
+                {
+                    ViewBag.Message = "Ha ocurrido un error, no se han realizado los cambios en el elemento deseado.";
+                }
+                 
                 return RedirectToAction("Index");
 
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                ViewBag.Message = "ERROR: " + e.Message;
+                return RedirectToAction("Index");
             }
         }
 
-        public void Edit(int id, ProductModel newModel)
+
+        public ProductModel SearchElement(int id)
         {
-            for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.GetCount(); i++)
-            {
-                //Buscar ID, igualar nodo con newModel
-            }
+            TreeNode<ProductModel> temp = Singleton.Instance.ProductsBinaryTree.Search<int>(Comparar, id);
+            return temp.Value;
         }
+
+        public static int Comparar<E>(ProductModel product, E elementoBuscar)
+        {
+            return product.ProductID.CompareTo(elementoBuscar);
+        }
+
+        //public void Edit(int id, ProductModel newModel)
+        //{
+        //    for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.GetCount(); i++)
+        //    {
+        //        //Buscar ID, igualar nodo con newModel
+        //    }
+        //}
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
