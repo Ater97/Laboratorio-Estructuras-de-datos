@@ -85,28 +85,10 @@ namespace Laboratory_2.UtilitiesClass
                 if (value.Value.CompareTo(root.Value) == 1)
                 {
                     /* 
-                     * 5.- En caso de ser menor pasamos al Nodo de la IZQUIERDA del
-                     * que acabamos de preguntar y repetimos desde el paso 2 
-                     * partiendo del Nodo al que acabamos de visitar 
-                     */
-                    if (root.GetLeft() == null)
-                    {
-                        root.SetLeft(value);
-                        root.GetLeft().SetPadre(root);
-                        count++;
-                    }
-                    else
-                    {
-                        Add(value, root.GetLeft());
-                    }
-                }
-                else
-                {
-                    /* 
-                     * 6.- En caso de ser mayor pasamos al Nodo de la DERECHA y tal
-                     * cual hicimos con el caso anterior repetimos desde el paso 2
-                     * partiendo de este nuevo Nodo.
-                     */
+                   * 5.- En caso de ser mayor pasamos al Nodo de la DERECHA y tal
+                   * cual hicimos con el caso anterior repetimos desde el paso 2
+                   * partiendo de este nuevo Nodo.
+                   */
                     if (root.GetRight() == null)
                     {
                         root.SetRight(value);
@@ -116,6 +98,24 @@ namespace Laboratory_2.UtilitiesClass
                     else
                     {
                         Add(value, root.GetRight());
+                    }
+                }
+                else
+                {                 
+                    /* 
+                    * 6.- En caso de ser menor pasamos al Nodo de la IZQUIERDA del
+                    * que acabamos de preguntar y repetimos desde el paso 2 
+                    * partiendo del Nodo al que acabamos de visitar 
+                    */
+                    if (root.GetLeft() == null)
+                    {
+                        root.SetLeft(value);
+                        root.GetLeft().SetPadre(root);
+                        count++;
+                    }
+                    else
+                    {
+                        Add(value, root.GetLeft());
                     }
                 }
             }
@@ -517,6 +517,24 @@ namespace Laboratory_2.UtilitiesClass
             }
         }
         #endregion
+
+        //public List<T> CustomerSearch(List<T> Data, string text)
+        //{
+        //    List<T> data = Data; ;
+        //    List<T> encontrados = new List<T>();
+        //    string aux = "";
+
+        //    for (int i = 0; i < data.Count; i++)
+        //    {
+        //        aux = Convert.ToString(data[i].ProductID);
+        //        if (aux.Contains(text))
+        //        {
+        //            encontrados.Add(data[i]);
+        //        }
+        //    }
+
+        //    return encontrados;
+        //}
 
         #region IEnumerable<T> Members
 

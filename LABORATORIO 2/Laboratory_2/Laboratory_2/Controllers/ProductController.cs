@@ -15,6 +15,7 @@ namespace Laboratory_2.Controllers
         // GET: Product
         public ActionResult Index()
         {
+            ViewBag.Message = "Cantidad de elementos: " + Singleton.Instance.ProductsBinaryTree.GetCount();
             return View(Singleton.Instance.ProductsBinaryTree);
         }
 
@@ -34,14 +35,15 @@ namespace Laboratory_2.Controllers
                 byte[] binData = b.ReadBytes(file.ContentLength);
 
                 string Data = System.Text.Encoding.UTF8.GetString(binData);
+                Data = Data.Replace("\",\"","*");
+                Data = Data.Replace("\r\n", "*");
                 Data = Data.Replace('"', ' ');
-                Data = Data.Replace("\r\n", ",");
-                string[] Result = Data.Split(',');
+                string[] Result = Data.Split('*');
                 for (int i = 0; i < VerverifyLenght(Result.Length); i = i + 4)
                 {
                     ProductModel newProduct = (new ProductModel
                     {
-                        ProductID = int.Parse(Result[i].Trim()),
+                        ProductID = Result[i].Trim(),
                         ProductDescription = Result[i + 1].Trim(),
                         ProductPrize = double.Parse(Result[i + 2].Trim()),
                         ProductCount = long.Parse(Result[i + 3].Trim())
@@ -60,7 +62,7 @@ namespace Laboratory_2.Controllers
         }
 
         // GET: Product/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View(SearchElement(id));
         }
@@ -80,7 +82,7 @@ namespace Laboratory_2.Controllers
                 // TODO: Add insert logic here
                 ProductModel newProduct = (new ProductModel
                 {
-                    ProductID = int.Parse(collection["ProductID"]),
+                    ProductID = collection["ProductID"],
                     ProductDescription = collection["ProductDescription"],
                     ProductPrize = double.Parse(collection["ProductPrize"]),
                     ProductCount = long.Parse(collection["ProductCount"])
@@ -96,14 +98,14 @@ namespace Laboratory_2.Controllers
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(String id)
         {
             return View(SearchElement(id));
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string id, FormCollection collection)
         {
             try
             {
@@ -113,7 +115,7 @@ namespace Laboratory_2.Controllers
                 item.ProductPrize = double.Parse(collection["ProductPrize"]);
                 item.ProductCount = long.Parse(collection["ProductCount"]);
 
-                if(Singleton.Instance.ProductsBinaryTree.Edit<int>(Comparar, id, item))
+                if(Singleton.Instance.ProductsBinaryTree.Edit<string>(Comparar, id, item))
                 {
                     ViewBag.Message = "Se ha editado el elemento correctamente.";
                 }
@@ -132,12 +134,25 @@ namespace Laboratory_2.Controllers
             }
         }
 
-
-        public ProductModel SearchElement(int id)
+        public ProductModel SearchElement(string id)
         {
-            TreeNode<ProductModel> temp = Singleton.Instance.ProductsBinaryTree.Search<int>(Comparar, id);
+            TreeNode<ProductModel> temp = Singleton.Instance.ProductsBinaryTree.Search<string>(Comparar, id);
             return temp.Value;
         }
+
+        //[HttpGet]
+        //public ActionResult Search()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult Search(string text)
+        //{
+        //    var results = .CustomersSearch(text);
+        //    return PartialView("ResultsPartial", results);
+        //}
+
 
         public static int Comparar<E>(ProductModel product, E elementoBuscar)
         {
@@ -152,14 +167,14 @@ namespace Laboratory_2.Controllers
         //    }
         //}
         // GET: Product/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            return View(SearchElement(id));
         }
 
         // POST: Product/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
@@ -172,9 +187,9 @@ namespace Laboratory_2.Controllers
                 return View();
             }
         }
-        private bool DeleteProduct(int id)
+        private bool DeleteProduct(string id)
         {
-            TreeNode<ProductModel> Product = Singleton.Instance.ProductsBinaryTree.Search<int>(Comparar, id);
+            TreeNode<ProductModel> Product = Singleton.Instance.ProductsBinaryTree.Search<string>(Comparar, id);
             Singleton.Instance.ProductsBinaryTree.Eliminate(Product);
             return false;
         }

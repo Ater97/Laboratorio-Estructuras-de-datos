@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Laboratory_2.UtilitiesClass;
 
 namespace Laboratory_2.Models
 {
     public class ProductModel : IComparable<ProductModel> 
     {
         [Display(Name = "Codigo de producto")]
-        public int ProductID { get; set; }
+        public string ProductID { get; set; }
         
         [Display(Name = "Descripcion")]
         public string ProductDescription { get; set; }
@@ -24,11 +25,8 @@ namespace Laboratory_2.Models
 
         public int CompareTo(ProductModel other)
         {
-            if(ProductID < other.ProductID)
-            {
-                return 1;
-            }
-            return 0;
+            return ProductID.CompareTo(other.ProductID);
         }
+
     }
 }
