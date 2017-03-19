@@ -16,6 +16,28 @@
 
 </div>
 
+
+@using (Html.BeginForm("Search", "Product", FormMethod.Post))
+{
+    <p>
+        Buscar Producto
+        <input type="text" name="text" placeholder="-Código del producto-">
+        <input type="submit" value="Buscar" />
+    </p>
+}
+
+<div align="center">
+    <font color="red">
+        <h4>@ViewBag.Error</h4>
+    </font>
+    <font color="#24AAFF">
+        @ViewBag.Error1
+    </font>
+    <p>
+        @ViewBag.Error2
+    </p>
+</div>
+
 <div ALIGN="right">
     <h4> @ViewBag.Message </h4>
 </div>
@@ -59,8 +81,7 @@
                 @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
                 @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })
             </td>
-        }
-        
+        }  
     </tr>
 }
 

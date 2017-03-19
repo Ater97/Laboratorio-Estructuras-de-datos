@@ -99,7 +99,7 @@ namespace Laboratory_2.Controllers
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(String id)
+        public ActionResult Edit(string id)
         {
             return View(SearchElement(id));
         }
@@ -138,7 +138,32 @@ namespace Laboratory_2.Controllers
         public ProductModel SearchElement(string id)
         {
             TreeNode<ProductModel> temp = Singleton.Instance.ProductsBinaryTree.Search<string>(Comparar, id);
-            return temp.Value;
+
+            if (temp != null)
+            {
+                return temp.Value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Search(string text)
+        {
+            ProductModel temp = SearchElement(text);
+
+            if (temp == null)
+            {
+                ViewBag.Message = "Cantidad de elementos: " + Singleton.Instance.ProductsBinaryTree.GetCount();
+                ViewBag.Error = "Error";
+                ViewBag.Error1 = "El elemento buscado no se ha encontrado en la base de datos.";
+                ViewBag.Error2 = "Vuelva a intentarlo de nuevo.";
+                return View("Index", Singleton.Instance.ProductsBinaryTree);
+            }
+
+            return View("Details", temp);
         }
 
         public static int Comparar<E>(ProductModel product, E elementoBuscar)
@@ -167,12 +192,13 @@ namespace Laboratory_2.Controllers
                 return View();
             }
         }
+
         private bool DeleteProduct(string id)
         {
             TreeNode<ProductModel> Product = Singleton.Instance.ProductsBinaryTree.Search<string>(Comparar, id);
-            Singleton.Instance.ProductsBinaryTree.Eliminate(Product);
-            return false;
+            return Singleton.Instance.ProductsBinaryTree.Eliminate(Product);
         }
+
         private double VerverifyLenght(double number)
         {
             if (number % 4 == 0)
