@@ -11,7 +11,7 @@
         @Html.ActionLink("Subir archivo", "UploadProduct")
     </p>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Agregar nuevo producto", "Create")
     </p>
 
 </div>
@@ -55,9 +55,9 @@
         @if (item != null)
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                @Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })
             </td>
         }
         

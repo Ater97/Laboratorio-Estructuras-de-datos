@@ -5,10 +5,21 @@
 }
 
 <h2>Index</h2>
-
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Subir archivo", "UploadBill")
 </p>
+<p>
+    @Html.ActionLink("Subir archivo de detalles", "UploadBillDescription")
+</p>
+<p>
+    @Html.ActionLink("Crear una nueva factura", "Create")
+</p>
+
+<div ALIGN="right">
+    <h4> @ViewBag.Message </h4>
+</div>
+
+
 <table class="table">
     <tr>
         <th>
@@ -58,11 +69,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Total)
         </td>
+        @if (item != null)
+        {
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Serie + item.Correlative.ToString() }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Serie + item.Correlative.ToString() }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Serie + item.Correlative.ToString() })
         </td>
+        }
     </tr>
 }
 

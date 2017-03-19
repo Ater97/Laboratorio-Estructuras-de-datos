@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "MultiSelectProduct";
+    Layout = "~/Views/Shared/_Simple_Layout.cshtml";
+}
+
+<h2>MultiSelectProduct</h2>
+
+@if (ViewBag.YouSelected != null)
+{
+
+    <div> You Selected:  @ViewBag.YouSelected</div>
+
+}
+
+@using (Html.BeginForm())
+{
+
+    <fieldset>
+
+        <legend>Multi-Select Demo</legend>
+
+        <div class="editor-field">
+
+            @Html.ListBox("Products", ViewBag.Productslist as MultiSelectList )
+
+        </div>
+
+        <p>
+
+            <input type="submit" value="Save" />
+
+        </p>
+
+    </fieldset>
+
+}

@@ -1,11 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "UploadProduct";
+    ViewBag.Title = "UploadBill";
 }
 
-<h2>UploadProduct</h2>
+<h2>UploadBill</h2>
 
-@using (Html.BeginForm("UploadProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadBill", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <input type="file" name="file" />
     <button type="submit">Subir archivo</button>
@@ -13,6 +13,7 @@
 <div ALIGN="right">
     <h4> @ViewBag.Message </h4>
 </div>
+<p>
 <p>
     @Html.ActionLink("Regresar", "Index")
 </p>

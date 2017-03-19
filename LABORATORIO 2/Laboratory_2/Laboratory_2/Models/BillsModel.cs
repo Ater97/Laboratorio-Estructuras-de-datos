@@ -9,7 +9,7 @@ namespace Laboratory_2.Models
     public class BillsModel: IComparable<BillsModel>
     {
         
-        public char Serie { get; set; }
+        public string Serie { get; set; }
 
        
         [Display(Name = "Correlativo")]
@@ -28,17 +28,13 @@ namespace Laboratory_2.Models
 
        
         [Display(Name = "Descripción de la compra")]
-        public string BillDescription { get; set; }
+        public string[] BillDescription { get; set; }
 
         public double Total { get; set; }
 
         public int CompareTo(BillsModel other)
         {
-            if (Serie >= other.Serie)
-            {
-                return 1;
-            }
-            return 0;
+            return (Serie + Correlative.ToString()).CompareTo(other.Serie + other.Correlative.ToString());
         }
     }
 }

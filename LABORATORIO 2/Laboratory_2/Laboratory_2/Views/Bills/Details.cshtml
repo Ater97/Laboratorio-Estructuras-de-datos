@@ -1,0 +1,77 @@
+﻿@model Laboratory_2.Models.BillsModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<div ALIGN="right">
+    <h4> @ViewBag.Message </h4>
+</div>
+<div>
+    <h4>BillsModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Serie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Correlative)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Correlative)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NIT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NIT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaleDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaleDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Serie + Model.Correlative.ToString() }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Serie + Model.Correlative.ToString() }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

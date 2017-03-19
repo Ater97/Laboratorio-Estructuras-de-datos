@@ -29,7 +29,7 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-               if (file == null) return View("UploadProduct");
+               if (file == null) { ViewBag.Message = "Ocurrió un error. Por favor seleccione un archivo"; return View("UploadProduct"); }
 
                 BinaryReader b = new BinaryReader(file.InputStream);
                 byte[] binData = b.ReadBytes(file.ContentLength);
@@ -56,6 +56,7 @@ namespace Laboratory_2.Controllers
             }
             catch
             {
+                ViewBag.Message = "Ocurrió un error al subir el archivo, por favor revise el formato.";
                 return View();
             }
 
@@ -140,32 +141,11 @@ namespace Laboratory_2.Controllers
             return temp.Value;
         }
 
-        //[HttpGet]
-        //public ActionResult Search()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ActionResult Search(string text)
-        //{
-        //    var results = .CustomersSearch(text);
-        //    return PartialView("ResultsPartial", results);
-        //}
-
-
         public static int Comparar<E>(ProductModel product, E elementoBuscar)
         {
             return product.ProductID.CompareTo(elementoBuscar);
         }
 
-        //public void Edit(int id, ProductModel newModel)
-        //{
-        //    for (int i = 0; i < Singleton.Instance.ProductsBinaryTree.GetCount(); i++)
-        //    {
-        //        //Buscar ID, igualar nodo con newModel
-        //    }
-        //}
         // GET: Product/Delete/5
         public ActionResult Delete(string id)
         {
