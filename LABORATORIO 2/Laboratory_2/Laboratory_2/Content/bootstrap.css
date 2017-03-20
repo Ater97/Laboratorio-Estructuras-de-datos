@@ -4205,18 +4205,29 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .upload{
     background:url(../Images/Icons/Subir.png);
+    border:none;
     background-size:auto;
-    background-color:lightgray;
-    width: 35px;
-    height: 35px;
+    background-color:#eeeeee;
+    width: 32px;
+    height: 32px;
 }
 
 .download{
     background:url(../Images/Icons/Descarga.png);
+    border:none;
     background-size:auto;
-    background-color:lightgray;
-    width: 35px;
-    height: 35px;
+    background-color:#eeeeee;
+    width: 32px;
+    height: 32px;
+}
+
+.add{
+    background:url(../Images/Icons/Add.png);
+    border:none;
+    background-size:auto;
+    background-color:#eeeeee;
+    width: 32px;
+    height: 32px;
 }
 
 

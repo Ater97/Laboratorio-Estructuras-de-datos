@@ -18,15 +18,27 @@
         <p>
             @using (Html.BeginForm("UploadProduct", "Product",FormMethod.Get))
             {
-               <input type="submit" value="" class="upload" />
+                <font color="black" size="3">
+                    <label> Subir Archivo</label>
+                    <input type="submit" value="" class="upload" title="Subir Archivo" />
+                </font>   
             }
 
             @using (Html.BeginForm("DownloadProduct", "Product", FormMethod.Get))
             {
-                <input type="submit" value="" class="download" />
+                <font color="black" size="3">
+                    <label> Descargar Datos</label>
+                    <input type="submit" value="" class="download" title="Descargar datos" />
+                </font>           
             }
 
-            @Html.ActionLink("Descargar archivo", "DownloadProduct")
+            @using (Html.BeginForm("Create", "Product", FormMethod.Get))
+            {
+                <font color="black" size="3">
+                    <label> Agregar Producto </label>
+                    <input type="submit" value="" class="add" title="Agregar un producto" />
+                </font>   
+            }
         </p>
     </div>
 
