@@ -140,7 +140,8 @@ namespace Laboratory_2.Controllers
                     Total = 00.00,
                 });
                 Singleton.Instance.BillsBinaryTree.Add(newBillModel);
-                return RedirectToAction("MultiSelectProducts");
+                Singleton.Instance.TempBillId = (collection["Serie"]) + "|" + (collection["Correlative"]);
+                return RedirectToAction("MultiSelectProduct");
             }
             catch
             {
@@ -152,7 +153,7 @@ namespace Laboratory_2.Controllers
 
         public ActionResult  MultiSelectProduct()
         {
-            ViewBag.Producstlist = GetProducts(null);
+            ViewBag.Productslist = GetProducts(null);
 
             return View();
         }
@@ -160,32 +161,51 @@ namespace Laboratory_2.Controllers
         [HttpPost]
         public ActionResult MultiSelectProduct(FormCollection form)
         {
-            ViewBag.YouSelected = form["Products"];
-            string selectedValues = form["Products"];
-            ViewBag.Productslist = GetProducts(selectedValues.Split(','));
-
+            try
+            {
+                ViewBag.Message = "Cantidad de Productos: " + Singleton.Instance.ProductsBinaryTree.GetCount();
+                ViewBag.YouSelected = form["Products"];
+                string selectedValues = form["Products"];
+                ViewBag.Productslist = GetProducts(selectedValues.Split(','));
+                string[] idProducts = ViewBag.Productslist.SelectedValues;
+                string[] newDescription = { "" };
+                double newTotal = 00.00;
+                for (int i = 0; i < idProducts.Count<string>(); i++)
+                {
+                    ProductModel newProduct = SearchProduct(idProducts[i]);
+                    newDescription[i] = newProduct.ProductID;
+                    newTotal += newProduct.ProductPrize;
+                }
+                string[] idbill = Singleton.Instance.TempBillId.Split('|');
+                BillsModel newBill = AddDescription(idbill[0], int.Parse(idbill[1]), newDescription, newTotal);
+                Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, Singleton.Instance.TempBillId, newBill);
+                Singleton.Instance.TempBillId = "";
+            }
+            catch
+            {
+                return View("Create");
+            }
             return RedirectToAction("Index");
-
         }
 
         public MultiSelectList GetProducts(string[] selectedValues)
         {
 
-            //  List<ProductModel> Products = Singleton.Instance.ProductsBinaryTree.ToList<ProductModel>();
-            List<ProductModel> Products = (new List<ProductModel>
-        {
+              List<ProductModel> Products = Singleton.Instance.ProductsBinaryTree.ToList<ProductModel>();
+        //    List<ProductModel> Products = (new List<ProductModel>
+        //{
 
-            new ProductModel() {ProductID = "1", ProductCount = 1, ProductDescription = "1", ProductPrize = 1},
+        //    new ProductModel() {ProductID = "sdfsa1", ProductCount = 1, ProductDescription = "des1", ProductPrize = 1},
 
-            new ProductModel() { ProductID = "2", ProductCount = 2, ProductDescription = "2", ProductPrize = 2},
+        //    new ProductModel() { ProductID = "2sadfsadf", ProductCount = 2, ProductDescription = "des2", ProductPrize = 2},
 
-            new ProductModel() { ProductID = "3", ProductCount = 3, ProductDescription = "3", ProductPrize = 3 },
+        //    new ProductModel() { ProductID = "3sdafas", ProductCount = 3, ProductDescription = "des3", ProductPrize = 3 },
 
-            new ProductModel() { ProductID = "3", ProductCount = 3, ProductDescription = "3", ProductPrize = 3},
+        //    new ProductModel() { ProductID = "4sdafsadf", ProductCount = 4, ProductDescription = "de4", ProductPrize = 4},
 
 
-        });
-            return new MultiSelectList(Products, "ProductID", "ProductID", selectedValues);
+        //});
+            return new MultiSelectList(Products, "ProductID", "ProductDescription", selectedValues);
 
         }
 

@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "MultiSelectProduct";
-    Layout = "~/Views/Shared/_Simple_Layout.cshtml";
+    ViewBag.Title = "Select Product";
+ 
 }
 
 <h2>MultiSelectProduct</h2>
@@ -17,8 +17,11 @@
 {
 
     <fieldset>
+        <div ALIGN="right">
+            <h4> @ViewBag.Message </h4>
+        </div>
 
-        <legend>Multi-Select Demo</legend>
+        <legend> Utilize la tecla "control" para seleccionar varios productos</legend>
 
         <div class="editor-field">
 
@@ -35,3 +38,10 @@
     </fieldset>
 
 }
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "Index")
+</div>
+<div>
+    @Html.ActionLink("Regresar a crear", "Create")
+</div>
