@@ -11,37 +11,41 @@
             <h2>Productos</h2>
         </font>
         
-        <hr align="CENTER" size="2" width="600" color="black" noshade />
+        <hr align="CENTER" size="3" width="600" color="black" noshade />
     </Center>
 
-    <div class="alinear">
+    <div align="right">
         <div class="alinear">
-            @using (Html.BeginForm("UploadProduct", "Product", FormMethod.Get))
+            <div class="alinear">
+                @using (Html.BeginForm("UploadProduct", "Product", FormMethod.Get))
             {
-                <font color="black" size="3">
-                    <input type="submit" value="" class="upload" title="Subir Archivo" />
-                </font>
-            }
-        </div>
+                    <font color="black" size="3">
+                        <input type="submit" value="" class="upload" title="Subir Archivo" />
+                    </font>
+                }
+            </div>
 
-        <div class="alinear">
-            @using (Html.BeginForm("DownloadProduct", "Product", FormMethod.Get))
+            <div class="alinear">
+                @using (Html.BeginForm("DownloadProduct", "Product", FormMethod.Get))
             {
-                <font color="black" size="3">
-                    <input type="submit" value="" class="download" title="Descargar datos" />
-                </font>
-            }
+                    <font color="black" size="3">
+                        <input type="submit" value="" class="download" title="Descargar datos" />
+                    </font>
+                }
+            </div>
+
+            <div 
+                 class="alinear">
+                @using (Html.BeginForm("Create", "Product", FormMethod.Get))
+            {
+                    <font color="black" size="3">
+                        <input type="submit" value="" class="add" title="Agregar un producto" />
+                    </font>
+                }
+            </div>
         </div>
-        
-        <div class="alinear">
-            @using (Html.BeginForm("Create", "Product", FormMethod.Get))
-            {
-                <font color="black" size="3">
-                    <input type="submit" value="" class="add" title="Agregar un producto" />
-                </font>
-            }
-        </div>  
     </div>
+    
 
     @using (Html.BeginForm("Search", "Product", FormMethod.Post))
     {

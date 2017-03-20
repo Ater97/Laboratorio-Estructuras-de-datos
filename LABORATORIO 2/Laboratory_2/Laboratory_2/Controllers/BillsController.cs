@@ -47,12 +47,12 @@ namespace Laboratory_2.Controllers
                     {
                         string serie = Result[i] + "|";
                         int correlative = int.Parse(Result[i + 1]);
-                        string[] newDescription = { Result[i + 2] };
+                        string[] newIDs = { Result[i + 2] };
                         double newTotal = double.Parse(Result[i + 3]);
 
                         try
                         {
-                            BillsModel newBill = AddDescription(serie, correlative, newDescription, newTotal);
+                            BillsModel newBill = AddDescription(serie, correlative, newIDs, newTotal);
                             Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, serie + correlative, newBill);
                         }
                         catch
@@ -320,20 +320,23 @@ namespace Laboratory_2.Controllers
         public BillsModel AddDescription(string serie, int correlative, string[] description, double total)
         {
             bool flag = false;
+            string names = "";
             BillsModel newBill = SearchElement(serie + correlative);
             for (int i = 0; i < description.Count(); i++)
             {
-               if (CheckProductsExistence(description[i]))
+                ProductModel tempProduct = SearchProduct(description[i]);
+                if (tempProduct == null)
                 {
-                   flag = false;
+                    flag = false;
                     break;
-
                 }
                 flag = true;
+                names += tempProduct.ProductDescription + "*";
             }
             if (flag)
             {
-                newBill.BillDescription = description;
+
+                newBill.BillDescription = names.Split('*');
             }
             else
             {
@@ -350,12 +353,12 @@ namespace Laboratory_2.Controllers
       /// </summary>
       /// <param name="id"></param>
       /// <returns>true if the product is in the inventory.</returns>
-        public bool CheckProductsExistence(string id)
-        {
-            if (SearchProduct(id) == null)
-                return false;
-            return true;
-        }
+        //public bool CheckProductsExistence(string id)
+        //{
+        //    if (SearchProduct(id) == null)
+        //        return false;
+        //    return true;
+        //}
 
     }
 }
