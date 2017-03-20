@@ -23,6 +23,8 @@ namespace Laboratory_2.UtilitiesClass
         }
         public MyBinaryTree<ProductModel> ProductsBinaryTree = new MyBinaryTree<ProductModel>();
         public MyBinaryTreeAVL<BillsModel> BillsBinaryTree = new MyBinaryTreeAVL<BillsModel>();
-        public string TempBillId = "";    
+        public string TempBillId = "";
+        public string[] paths = { "", "" };
+        public bool[] flags = { false, false, false };
     }
 }

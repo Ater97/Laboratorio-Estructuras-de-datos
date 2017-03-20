@@ -31,34 +31,42 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-                if (file == null) { ViewBag.Message = "Ocurrió un error. Por favor seleccione un archivo"; return View("UploadBillDescription"); }
-                BinaryReader b = new BinaryReader(file.InputStream);
-                byte[] binData = b.ReadBytes(file.ContentLength);
-
-                string Data = System.Text.Encoding.UTF8.GetString(binData);
-                Data = Data.Replace("\",\"", "*");
-                Data = Data.Replace("\r\n", "*");
-                Data = Data.Replace('"', ' ');
-                string[] Result = Data.Split('*');
-                for (int i = 0; i < VerverifyLenght(Result.Length, 4); i = i + 4)
+                if (Singleton.Instance.flags[0] && Singleton.Instance.flags[1])
                 {
-                    string serie = Result[i] + "|";
-                    int correlative = int.Parse(Result[i + 1]);
-                    string[] newDescription = { Result[i + 2] };
-                    double newTotal = double.Parse(Result[i + 3]);
-                   
-                    try
+                    if (file == null) { ViewBag.Message = "Ocurrió un error. Por favor seleccione un archivo."; return View("UploadBillDescription"); }
+                    BinaryReader b = new BinaryReader(file.InputStream);
+                    byte[] binData = b.ReadBytes(file.ContentLength);
+
+                    string Data = System.Text.Encoding.UTF8.GetString(binData);
+                    Data = Data.Replace("\",\"", "*");
+                    Data = Data.Replace("\r\n", "*");
+                    Data = Data.Replace('"', ' ');
+                    string[] Result = Data.Split('*');
+                    for (int i = 0; i < VerverifyLenght(Result.Length, 4); i = i + 4)
                     {
-                        BillsModel newBill = AddDescription(serie, correlative, newDescription, newTotal);
-                        Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, serie + correlative, newBill);
+                        string serie = Result[i] + "|";
+                        int correlative = int.Parse(Result[i + 1]);
+                        string[] newDescription = { Result[i + 2] };
+                        double newTotal = double.Parse(Result[i + 3]);
+
+                        try
+                        {
+                            BillsModel newBill = AddDescription(serie, correlative, newDescription, newTotal);
+                            Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, serie + correlative, newBill);
+                        }
+                        catch
+                        {
+                            ViewBag.Message = "serie + correlative  ";
+                        }
                     }
-                   catch
-                    {
-                        ViewBag.Message ="serie + correlative  ";
-                    }
+                    ViewBag.Message = "ERROR con:" + ViewBag.Message;
+                    return RedirectToAction("Index");
                 }
-                ViewBag.Message = "ERROR con:" + ViewBag.Message;
-                return RedirectToAction("Index");
+                else
+                {
+                    ViewBag.Message = "Ocurrió un error al subir el archivo, por favor revise que los productos se encuentren disponibles. ";
+                    return RedirectToAction("UploadBillDescription");
+                }
             }
             catch(Exception e)
             {
@@ -99,7 +107,8 @@ namespace Laboratory_2.Controllers
                         Total = 00.00
                     });
                     Singleton.Instance.BillsBinaryTree.Add(newBill);
-                }              
+                }
+                Singleton.Instance.flags[1] = true;
                 return RedirectToAction("Index");
             }
             catch
@@ -127,21 +136,28 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-                ViewBag.Message = "Si desea ingresar mas de un produto en la descripion: separelos por *";
-                // TODO: Add insert logic here
-                BillsModel newBillModel = (new BillsModel
+                if (Singleton.Instance.flags[0] && Singleton.Instance.flags[1])
                 {
-                    Serie = (collection["Serie"]) + "|",
-                    Correlative = int.Parse(collection["Correlative"]),
-                    Name = collection["Name"],
-                    NIT = collection["NIT"],
-                    SaleDate = collection["SaleDate"],
-                    BillDescription = { },
-                    Total = 00.00,
-                });
-                Singleton.Instance.BillsBinaryTree.Add(newBillModel);
-                Singleton.Instance.TempBillId = (collection["Serie"]) + "|" + (collection["Correlative"]);
-                return RedirectToAction("MultiSelectProduct");
+                    ViewBag.Message = "Si desea ingresar mas de un produto en la descripion: separelos por *";
+                    // TODO: Add insert logic here
+                    BillsModel newBillModel = (new BillsModel
+                    {
+                        Serie = (collection["Serie"]) + "|",
+                        Correlative = int.Parse(collection["Correlative"]),
+                        Name = collection["Name"],
+                        NIT = collection["NIT"],
+                        SaleDate = collection["SaleDate"],
+                        BillDescription = { },
+                        Total = 00.00,
+                    });
+                    Singleton.Instance.BillsBinaryTree.Add(newBillModel);
+                    Singleton.Instance.TempBillId = (collection["Serie"]) + "|" + (collection["Correlative"]);
+                    return RedirectToAction("MultiSelectProduct");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {
@@ -190,66 +206,53 @@ namespace Laboratory_2.Controllers
 
         public MultiSelectList GetProducts(string[] selectedValues)
         {
+            List<ProductModel> Products = Singleton.Instance.ProductsBinaryTree.InOrden();
 
-              List<ProductModel> Products = Singleton.Instance.ProductsBinaryTree.ToList<ProductModel>();
-        //    List<ProductModel> Products = (new List<ProductModel>
-        //{
-
-        //    new ProductModel() {ProductID = "sdfsa1", ProductCount = 1, ProductDescription = "des1", ProductPrize = 1},
-
-        //    new ProductModel() { ProductID = "2sadfsadf", ProductCount = 2, ProductDescription = "des2", ProductPrize = 2},
-
-        //    new ProductModel() { ProductID = "3sdafas", ProductCount = 3, ProductDescription = "des3", ProductPrize = 3 },
-
-        //    new ProductModel() { ProductID = "4sdafsadf", ProductCount = 4, ProductDescription = "de4", ProductPrize = 4},
-
-
-        //});
             return new MultiSelectList(Products, "ProductID", "ProductDescription", selectedValues);
 
         }
 
         // GET: Bills/Edit/5
-        public ActionResult Edit(string id)
-        {
-            return View(SearchElement(id));
-        }
+        //public ActionResult Edit(string id)
+        //{
+        //    return View(SearchElement(id));
+        //}
 
-        // POST: Bills/Edit/5
-        [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
-        {
-            try
-            {
-                ViewBag.Message = "Si desea ingresar mas de un produto en la descripion: separelos por *";
-                string[] SerieandCorrelative = id.Split('|');
-                BillsModel Bill = (new BillsModel
-                    {
-                    Serie = SerieandCorrelative[0],
-                    Correlative = int.Parse(SerieandCorrelative[1]),
-                    Name = collection["Name"],
-                    NIT = collection["NIT"],
-                    BillDescription = (collection["BillDescription"].Trim().Split('*')),
-                    Total = double.Parse(collection["Total"]), 
-                });
+        //// POST: Bills/Edit/5
+        //[HttpPost]
+        //public ActionResult Edit(string id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        ViewBag.Message = "Si desea ingresar mas de un produto en la descripion: separelos por *";
+        //        string[] SerieandCorrelative = id.Split('|');
+        //        BillsModel Bill = (new BillsModel
+        //            {
+        //            Serie = SerieandCorrelative[0],
+        //            Correlative = int.Parse(SerieandCorrelative[1]),
+        //            Name = collection["Name"],
+        //            NIT = collection["NIT"],
+        //            BillDescription = (collection["BillDescription"].Trim().Split('*')),
+        //            Total = double.Parse(collection["Total"]), 
+        //        });
 
-                if (Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, id, Bill))
-                {
-                    ViewBag.Message = "Se ha editado el elemento correctamente.";
-                }
-                else
-                {
-                    ViewBag.Message = "Ha ocurrido un error, no se han realizado los cambios en el elemento deseado.";
-                }
+        //        if (Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, id, Bill))
+        //        {
+        //            ViewBag.Message = "Se ha editado el elemento correctamente.";
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Message = "Ha ocurrido un error, no se han realizado los cambios en el elemento deseado.";
+        //        }
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                ViewBag.Message = "ERROR: " + e.Message;
-                return RedirectToAction("Index");
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.Message = "ERROR: " + e.Message;
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         // GET: Bills/Delete/5
         public ActionResult Delete(string id)
@@ -313,17 +316,16 @@ namespace Laboratory_2.Controllers
         {
             return product.ProductID.CompareTo(elementoBuscar);
         }
-
         public BillsModel AddDescription(string serie, int correlative, string[] description, double total)
         {
             bool flag = false;
             BillsModel newBill = SearchElement(serie + correlative);
             for (int i = 0; i < description.Count(); i++)
             {
-               // if (CheckProductsExistence(description[i]))
+               if (CheckProductsExistence(description[i]))
                 {
                    flag = false;
-                 //   break;
+                    break;
 
                 }
                 flag = true;
@@ -342,10 +344,14 @@ namespace Laboratory_2.Controllers
 
             return newBill;
         }
-      
+      /// <summary>
+      /// Check the existence of the product
+      /// </summary>
+      /// <param name="id"></param>
+      /// <returns>true if the product is in the inventory.</returns>
         public bool CheckProductsExistence(string id)
         {
-            if (SearchProduct(id) != null)
+            if (SearchProduct(id) == null)
                 return false;
             return true;
         }

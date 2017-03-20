@@ -19,6 +19,36 @@ namespace Laboratory_2.Controllers
             return View(Singleton.Instance.ProductsBinaryTree);
         }
 
+        public ActionResult DownloadProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DownloadProduct(FormCollection collection)
+        {
+            try
+            {
+                string[] lineas = new string[Singleton.Instance.ProductsBinaryTree.GetCount()];
+                List<ProductModel> listP = Singleton.Instance.ProductsBinaryTree.InOrden();
+
+                for (int i = 0; i < lineas.Count(); i++)
+                {
+                    lineas[i] = listP[i].ProductID + "," + listP[i].ProductDescription + "," + listP[i].ProductPrize.ToString() + "," + listP[i].ProductCount.ToString();
+                }
+                string path = Server.MapPath("~/Downloads/file.out");
+                string path2 = Singleton.Instance.paths[0];
+                System.IO.File.WriteAllLines(path, lineas);
+
+                return File(path, path2, "file.out");
+            }
+            catch
+            {
+                return View("Index");
+            }
+        }
+
+
         public ActionResult UploadProduct()
         {
             return View();
@@ -30,7 +60,7 @@ namespace Laboratory_2.Controllers
             try
             {
                if (file == null) { ViewBag.Message = "Ocurrió un error. Por favor seleccione un archivo"; return View("UploadProduct"); }
-
+                Singleton.Instance.paths[0] = file.FileName;
                 BinaryReader b = new BinaryReader(file.InputStream);
                 byte[] binData = b.ReadBytes(file.ContentLength);
 
@@ -51,7 +81,7 @@ namespace Laboratory_2.Controllers
                     });
                     Singleton.Instance.ProductsBinaryTree.Add(newProduct);
                 }
-
+                Singleton.Instance.flags[0] = true;
                 return RedirectToAction("Index");
             }
             catch

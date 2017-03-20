@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "DownloadProduct";
+}
+
+<h2>DownloadProduct</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="DownloadProduct" class="btn btn-default" /> |
+        @Html.ActionLink("Regresar", "Index")
+    </div>
+}

@@ -216,6 +216,7 @@
     <Content Include="Views\Bills\UploadBillDescription.cshtml" />
     <Content Include="Views\Bills\Create.cshtml" />
     <Content Include="Views\Bills\MultiSelectProduct.cshtml" />
+    <Content Include="Views\Product\DownloadProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
