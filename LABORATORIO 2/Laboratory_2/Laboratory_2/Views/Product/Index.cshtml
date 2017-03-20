@@ -11,35 +11,36 @@
             <h2>Productos</h2>
         </font>
         
-        <hr align="CENTER" size="2" width="600" color="White" noshade />
+        <hr align="CENTER" size="2" width="600" color="black" noshade />
     </Center>
 
-    <div align ="right">
-        <p>
-            @using (Html.BeginForm("UploadProduct", "Product",FormMethod.Get))
+    <div class="alinear">
+        <div class="alinear">
+            @using (Html.BeginForm("UploadProduct", "Product", FormMethod.Get))
             {
                 <font color="black" size="3">
-                    <label> Subir Archivo</label>
                     <input type="submit" value="" class="upload" title="Subir Archivo" />
-                </font>   
+                </font>
             }
+        </div>
 
+        <div class="alinear">
             @using (Html.BeginForm("DownloadProduct", "Product", FormMethod.Get))
             {
                 <font color="black" size="3">
-                    <label> Descargar Datos</label>
                     <input type="submit" value="" class="download" title="Descargar datos" />
-                </font>           
+                </font>
             }
-
+        </div>
+        
+        <div class="alinear">
             @using (Html.BeginForm("Create", "Product", FormMethod.Get))
             {
                 <font color="black" size="3">
-                    <label> Agregar Producto </label>
                     <input type="submit" value="" class="add" title="Agregar un producto" />
-                </font>   
+                </font>
             }
-        </p>
+        </div>  
     </div>
 
     @using (Html.BeginForm("Search", "Product", FormMethod.Post))

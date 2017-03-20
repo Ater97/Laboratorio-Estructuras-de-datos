@@ -15,10 +15,11 @@ namespace Laboratory_2.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Cantidad de Facturas: " + Singleton.Instance.BillsBinaryTree.GetCount();
+            List<BillsModel> mostrar = Singleton.Instance.BillsBinaryTree.InOrden();
 
             //List<BillsModel> mostrar = Singleton.Instance.BillsBinaryTree.InOrden();
 
-            return View(Singleton.Instance.BillsBinaryTree);
+            return View(mostrar);
         }
 
         public ActionResult UploadBillDescription()
@@ -70,7 +71,7 @@ namespace Laboratory_2.Controllers
             }
             catch(Exception e)
             {
-                ViewBag.Message = "Ocurrió un error al subir el archivo, por favor revise el formato. ";
+                ViewBag.Message = "Error: " + e.Message;
                 return View();
             }
         }

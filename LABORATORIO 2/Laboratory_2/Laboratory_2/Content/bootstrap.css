@@ -4219,6 +4219,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     background-color:#eeeeee;
     width: 32px;
     height: 32px;
+
 }
 
 .add{
@@ -4228,6 +4229,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
     background-color:#eeeeee;
     width: 32px;
     height: 32px;
+}
+
+.alinear{
+    overflow:hidden;
+    display: inline;
+    display: inline-block;
+    vertical-align: top;
 }
 
 
