@@ -5,36 +5,17 @@ using System.Web;
 
 namespace Laboratory_2.UtilitiesClass
 {
-    public class MyBinaryTree<T> : IEnumerable<T> where T : IComparable<T>
+    public class MyBinaryTreeAVL<T> : IEnumerable<T> where T : IComparable<T>
     {
         public delegate int Compare<E>(T a, E b);
 
-        //Contador de elementos
         private int count;
-        //Nodo Raiz del árbol
         private TreeNode<T> root;
 
-        /// <summary>
-        /// Constructor del árbol binario.
-        /// </summary>
-        public MyBinaryTree()
+        public MyBinaryTreeAVL()
         {
             count = 0;
             root = null;
-        }
-
-        /// <summary>
-        /// Verifica si el árbol se encuentra vacio o no.
-        /// </summary>
-        /// <returns>Retorna True o False.</returns>
-        public bool Empty()
-        {
-            if (root == null)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         public int GetCount()
@@ -47,75 +28,365 @@ namespace Laboratory_2.UtilitiesClass
             this.root = root;
         }
 
-        #region Add Element
-
-        /// <summary>
-        /// Sobrecarga publica de la función agregar, agrega un elemento al
-        /// árbol binario.
-        /// </summary>
-        /// <param name="x"> Elemento a agregar del tipo T. </param>
+        #region Add Balanced
         public void Add(T x)
         {
             TreeNode<T> newElement = new TreeNode<T>();
             newElement.Value = x;
-            this.Add(newElement, root);
+            this.Add(newElement, this.root);
         }
 
-        /// <summary>
-        /// Sobrecarga privada de la función agregar, compara y decide donde debe
-        /// ser agregado el elemento ingresado, lo hace de manera recursiva.
-        /// </summary>
-        /// <param name="value"> Nuevo nodo del árbol. </param>
-        /// <param name="root"> Nodo raiz del árbol. </param>
-        private void Add(TreeNode<T> value, TreeNode<T> root)
+        private void Add(TreeNode<T> newElement, TreeNode<T> root)
         {
             if (root == null)
             {
-                /*
-                 * Primer caso, en el que insertamos el primer elemento 
-                 * se inserta como raiz de todo el árbol.
-                 */
-
-                this.SetRoot(value);
-                this.root.SetPadre(null);
+                this.SetRoot(newElement);
                 count++;
+                this.root.SetPadre(null);
             }
             else
             {
-                if (value.Value.CompareTo(root.Value) == 1)
+                TreeNode<T> node = this.root;
+
+                while (node != null)
                 {
-                    /* 
-                   * 5.- En caso de ser mayor pasamos al Nodo de la DERECHA y tal
-                   * cual hicimos con el caso anterior repetimos desde el paso 2
-                   * partiendo de este nuevo Nodo.
-                   */
-                    if (root.GetRight() == null)
+                    int compare = newElement.Value.CompareTo(node.Value);
+
+                    if (compare < 0)
                     {
-                        root.SetRight(value);
-                        root.GetRight().SetPadre(root);
-                        count++;
+                        TreeNode<T> left = node.GetLeft();
+
+                        if (left == null)
+                        {
+                            node.SetLeft(newElement);
+                            node.GetLeft().SetPadre(node);
+                            count++;
+                            InsertBalance(node, 1);
+                            return;
+                        }
+                        else
+                        {
+                            node = left;
+                        }
                     }
                     else
                     {
-                        Add(value, root.GetRight());
+                        if (compare > 0)
+                        {
+                            TreeNode<T> right = node.GetRight();
+
+                            if (right == null)
+                            {
+                                node.SetRight(newElement);
+                                node.GetRight().SetPadre(node);
+                                count++;
+                                InsertBalance(node, -1);
+                                return;
+                            }
+                            else
+                            {
+                                node = right;
+                            }
+                        }
+                        else
+                        {
+                            node.Value = newElement.Value;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void InsertBalance(TreeNode<T> node, int balance)
+        {
+            while (node != null)
+            {
+                balance = (node.Balance += balance);
+
+                if (balance == 0)
+                {
+                    return;
+                }
+                else if (balance == 2)
+                {
+                    if (node.GetLeft().Balance == 1)
+                    {
+                        RotateRight(node);
+                    }
+                    else
+                    {
+                        RotateLeftRight(node);
+                    }
+
+                    return;
+                }
+                else if (balance == -2)
+                {
+                    if (node.GetRight().Balance == -1)
+                    {
+                        RotateLeft(node);
+                    }
+                    else
+                    {
+                        RotateRightLeft(node);
+                    }
+
+                    return;
+                }
+
+                TreeNode<T> parent = node.GetPadre();
+
+                if (parent != null)
+                {
+                    balance = parent.GetLeft() == node ? 1 : -1;
+                }
+
+                node = parent;
+            }
+        }
+
+        private TreeNode<T> RotateRight(TreeNode<T> node)
+        {
+            TreeNode<T> left = node.GetLeft();
+            TreeNode<T> leftRight = left.GetRight();
+            TreeNode<T> parent = node.GetPadre();
+
+            left.SetPadre(parent);
+            left.SetRight(node);
+            node.SetLeft(leftRight);
+            node.SetPadre(left);
+
+
+            if (leftRight != null)
+            {
+                leftRight.SetPadre(node);
+            }
+
+            if (node == this.root)
+            {
+                this.root = left;
+            }
+            else if (parent.GetLeft() == node)
+            {
+                parent.SetLeft(left);
+            }
+            else
+            {
+                parent.SetRight(left);
+            }
+
+            left.Balance++;
+            node.Balance = -left.Balance;
+
+            return left;
+        }
+
+        private TreeNode<T> RotateLeft(TreeNode<T> node)
+        {
+            TreeNode<T> right = node.GetRight();
+            TreeNode<T> rightLeft = right.GetLeft();
+            TreeNode<T> parent = node.GetPadre();
+
+            right.SetPadre(parent);
+            right.SetLeft(node);
+            node.SetRight(rightLeft);
+            node.SetPadre(right);
+
+
+            if (rightLeft != null)
+            {
+                rightLeft.SetPadre(node);
+            }
+
+            if (node == this.root)
+            {
+                this.root = right;
+            }
+            else if (parent.GetRight() == node)
+            {
+                parent.SetRight(right);
+            }
+            else
+            {
+                parent.SetLeft(right);
+            }
+
+            right.Balance++;
+            node.Balance = -right.Balance;
+
+            return right;
+        }
+
+        private TreeNode<T> RotateRightLeft(TreeNode<T> node)
+        {
+            TreeNode<T> right = node.GetRight();
+            TreeNode<T> rightLeft = right.GetLeft();
+            TreeNode<T> parent = node.GetPadre();
+            TreeNode<T> rightLeftLeft = rightLeft.GetLeft();
+            TreeNode<T> rightLeftRight = rightLeft.GetRight();
+
+            rightLeft.SetPadre(parent);
+            node.SetRight(rightLeftLeft);
+            right.SetLeft(rightLeftRight);
+            rightLeft.SetRight(right);
+            rightLeft.SetLeft(node);
+            right.SetPadre(rightLeft);
+            node.SetPadre(rightLeft);
+
+            if (rightLeftLeft != null)
+            {
+                rightLeftLeft.SetPadre(node);
+            }
+
+            if (rightLeftRight != null)
+            {
+                rightLeftRight.SetPadre(right);
+            }
+
+            if (node == this.root)
+            {
+                SetRoot(rightLeft);
+            }
+            else if (parent.GetRight() == node)
+            {
+                parent.SetRight(rightLeft);
+            }
+            else
+            {
+                parent.SetLeft(rightLeft);
+            }
+
+            if (rightLeft.Balance == 1)
+            {
+                node.Balance = 0;
+                right.Balance = -1;
+            }
+            else if (rightLeft.Balance == 0)
+            {
+                node.Balance = 0;
+                right.Balance = 0;
+            }
+            else
+            {
+                node.Balance = 1;
+                right.Balance = 0;
+            }
+
+            rightLeft.Balance = 0;
+
+            return rightLeft;
+        }
+
+        private TreeNode<T> RotateLeftRight(TreeNode<T> node)
+        {
+            TreeNode<T> left = node.GetLeft();
+            TreeNode<T> leftRight = left.GetRight();
+            TreeNode<T> parent = node.GetPadre();
+            TreeNode<T> leftRightRight = leftRight.GetRight();
+            TreeNode<T> leftRightLeft = leftRight.GetLeft();
+
+            leftRight.SetPadre(parent);
+            node.SetLeft(leftRightRight);
+            left.SetRight(leftRightLeft);
+            leftRight.SetLeft(left);
+            leftRight.SetRight(node);
+            left.SetPadre(leftRight);
+            node.SetPadre(leftRight);
+
+            if (leftRightRight != null)
+            {
+                leftRightRight.SetPadre(node);
+            }
+
+            if (leftRightLeft != null)
+            {
+                leftRightLeft.SetPadre(left);
+            }
+
+            if (node == this.root)
+            {
+                SetRoot(leftRight);
+            }
+            else if (parent.GetLeft() == node)
+            {
+                parent.SetLeft(leftRight);
+            }
+            else
+            {
+                parent.SetRight(leftRight);
+            }
+
+            if (leftRight.Balance == -1)
+            {
+                node.Balance = 0;
+                left.Balance = 1;
+            }
+            else if (leftRight.Balance == 0)
+            {
+                node.Balance = 0;
+                left.Balance = 0;
+            }
+            else
+            {
+                node.Balance = -1;
+                left.Balance = 0;
+            }
+
+            leftRight.Balance = 0;
+
+            return leftRight;
+
+
+        }
+
+        #endregion
+
+        #region Edit Element
+
+        public bool Edit<E>(Compare<E> compare, E element, T Item)
+        {
+            return EditElement(root, compare, element, Item);
+        }
+
+        /// <summary>
+        /// Función que permite realizar cambios en el nodo deseado.
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="node"> Raiz del árbol. </param>
+        /// <param name="condicion"> Delegado que determina como buscar el nodo. </param>
+        /// <param name="element"> Parametro por el cual se busca el nodo. </param>
+        /// <param name="Item"> Elemento ya editado. </param>
+        /// <returns> True/False dependiento si pudo hacer la edición o no. </returns>
+        private bool EditElement<E>(TreeNode<T> node, Compare<E> condicion, E element, T Item)
+        {
+            if (condicion(node.Value, element) == 0)
+            {
+                node.Value = Item;
+                return true;
+            }
+            else
+            {
+                if (condicion(node.Value, element) > 0)
+                {
+                    if (node.GetLeft() == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return EditElement(node.GetLeft(), condicion, element, Item);
                     }
                 }
                 else
-                {                 
-                    /* 
-                    * 6.- En caso de ser menor pasamos al Nodo de la IZQUIERDA del
-                    * que acabamos de preguntar y repetimos desde el paso 2 
-                    * partiendo del Nodo al que acabamos de visitar 
-                    */
-                    if (root.GetLeft() == null)
+                {
+                    if (node.GetRight() == null)
                     {
-                        root.SetLeft(value);
-                        root.GetLeft().SetPadre(root);
-                        count++;
+                        return false;
                     }
                     else
                     {
-                        Add(value, root.GetLeft());
+                        return EditElement(node.GetRight(), condicion, element, Item);
                     }
                 }
             }
@@ -205,6 +476,7 @@ namespace Laboratory_2.UtilitiesClass
         #endregion
 
         #region Eliminate Element
+
         public bool Eliminate(TreeNode<T> node)
         {
             bool NodeRight = node.GetRight() != null ? true : false;
@@ -381,58 +653,6 @@ namespace Laboratory_2.UtilitiesClass
 
         #endregion
 
-        #region Edit Element
-
-        public bool Edit<E>(Compare<E> compare, E element, T Item)
-        {
-            return EditElement(root, compare, element, Item);
-        }
-
-        /// <summary>
-        /// Función que permite realizar cambios en el nodo deseado.
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="node"> Raiz del árbol. </param>
-        /// <param name="condicion"> Delegado que determina como buscar el nodo. </param>
-        /// <param name="element"> Parametro por el cual se busca el nodo. </param>
-        /// <param name="Item"> Elemento ya editado. </param>
-        /// <returns> True/False dependiento si pudo hacer la edición o no. </returns>
-        private bool EditElement<E>(TreeNode<T> node, Compare<E> condicion, E element, T Item)
-        {
-            if (condicion(node.Value, element) == 0)
-            {
-                node.Value = Item;
-                return true;
-            }
-            else
-            {
-                if (condicion(node.Value, element) > 0)
-                {
-                    if (node.GetLeft() == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                       return EditElement(node.GetLeft(), condicion, element, Item);
-                    }
-                }
-                else
-                {
-                    if (node.GetRight() == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return EditElement(node.GetRight(), condicion, element, Item);
-                    }
-                }
-            }
-        }
-
-        #endregion
-
         #region Tours of the Tree
 
         /// <summary>
@@ -522,7 +742,7 @@ namespace Laboratory_2.UtilitiesClass
 
         private IEnumerable<TreeNode<T>> Traversal(TreeNode<T> Node)
         {
-            if(Node != null)
+            if (Node != null)
             {
                 if (Node.GetLeft() != null)
                 {
@@ -542,14 +762,13 @@ namespace Laboratory_2.UtilitiesClass
             {
                 yield return null;
             }
-
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             foreach (TreeNode<T> TempNode in Traversal(root))
             {
-                if(TempNode != null)
+                if (TempNode != null)
                 {
                     yield return TempNode.Value;
                 }
@@ -557,7 +776,6 @@ namespace Laboratory_2.UtilitiesClass
                 {
                     yield return default(T);
                 }
-                
             }
         }
 
@@ -570,5 +788,7 @@ namespace Laboratory_2.UtilitiesClass
         }
 
         #endregion
+
+
     }
 }

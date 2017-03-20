@@ -25,8 +25,7 @@ namespace Laboratory_2.Models
         
         [Display(Name = "Fecha de venta")]
         public string SaleDate { get; set; }
-
-       
+      
         [Display(Name = "Descripción de la compra")]
         public string[] BillDescription { get; set; }
 

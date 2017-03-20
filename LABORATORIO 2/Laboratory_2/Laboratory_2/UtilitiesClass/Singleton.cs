@@ -22,9 +22,6 @@ namespace Laboratory_2.UtilitiesClass
             }
         }
         public MyBinaryTree<ProductModel> ProductsBinaryTree = new MyBinaryTree<ProductModel>();
-        public MyBinaryTree<BillsModel> BillsBinaryTree = new MyBinaryTree<BillsModel>();
-
-    
-       
+        public MyBinaryTreeAVL<BillsModel> BillsBinaryTree = new MyBinaryTreeAVL<BillsModel>();       
     }
 }

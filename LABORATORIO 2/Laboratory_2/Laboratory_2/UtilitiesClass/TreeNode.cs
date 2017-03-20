@@ -8,6 +8,7 @@ namespace Laboratory_2.UtilitiesClass
     public class TreeNode<T>
     {
         private T value;
+        private int balance;
 
         public TreeNode<T> padre;
         public TreeNode<T> left;
@@ -23,6 +24,18 @@ namespace Laboratory_2.UtilitiesClass
             set
             {
                 this.value = value;
+            }
+        }
+
+        public int Balance
+        {
+            get
+            {
+                return this.balance;
+            }
+            set
+            {
+                this.balance = value;
             }
         }
 

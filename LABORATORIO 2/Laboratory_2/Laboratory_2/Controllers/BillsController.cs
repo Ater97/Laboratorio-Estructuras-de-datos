@@ -15,6 +15,9 @@ namespace Laboratory_2.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Cantidad de Facturas: " + Singleton.Instance.BillsBinaryTree.GetCount();
+
+            //List<BillsModel> mostrar = Singleton.Instance.BillsBinaryTree.InOrden();
+
             return View(Singleton.Instance.BillsBinaryTree);
         }
 
@@ -63,8 +66,6 @@ namespace Laboratory_2.Controllers
                 return View();
             }
         }
-    
-
 
         public ActionResult UploadBill()
         {
@@ -98,7 +99,7 @@ namespace Laboratory_2.Controllers
                         Total = 00.00
                     });
                     Singleton.Instance.BillsBinaryTree.Add(newBill);
-                }
+                }              
                 return RedirectToAction("Index");
             }
             catch
@@ -166,6 +167,7 @@ namespace Laboratory_2.Controllers
             return RedirectToAction("Index");
 
         }
+
         public MultiSelectList GetProducts(string[] selectedValues)
         {
 
@@ -186,6 +188,7 @@ namespace Laboratory_2.Controllers
             return new MultiSelectList(Products, "ProductID", "ProductID", selectedValues);
 
         }
+
         // GET: Bills/Edit/5
         public ActionResult Edit(string id)
         {
@@ -249,12 +252,14 @@ namespace Laboratory_2.Controllers
                 return View();
             }
         }
+
         private bool DeleteBill(string id)
         {
             TreeNode<BillsModel> Bill = Singleton.Instance.BillsBinaryTree.Search<string>(Comparar, id);
             Singleton.Instance.BillsBinaryTree.Eliminate(Bill);
             return false;
         }
+
         private double VerverifyLenght(double number,int limit)
         {
             if (number % limit == 0)
@@ -324,5 +329,6 @@ namespace Laboratory_2.Controllers
                 return false;
             return true;
         }
+
     }
 }
