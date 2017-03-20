@@ -317,26 +317,26 @@ namespace Laboratory_2.Controllers
         {
             return product.ProductID.CompareTo(elementoBuscar);
         }
-        public BillsModel AddDescription(string serie, int correlative, string[] description, double total)
+        public BillsModel AddDescription(string serie, int correlative, string[] ID, double total)
         {
-            bool flag = false;
-            string names = "";
+            string[] names = { "Descripcion pendiente" };
             BillsModel newBill = SearchElement(serie + correlative);
-            for (int i = 0; i < description.Count(); i++)
+            ProductModel tempProduct = SearchProduct(ID[0]);
+            if (tempProduct != null)
             {
-                ProductModel tempProduct = SearchProduct(description[i]);
-                if (tempProduct == null)
+                if (newBill.BillDescription == names )
                 {
-                    flag = false;
-                    break;
+                    newBill.BillDescription = ID;
                 }
-                flag = true;
-                names += tempProduct.ProductDescription + "*";
-            }
-            if (flag)
-            {
-
-                newBill.BillDescription = names.Split('*');
+                else
+                {
+                    int lenght = newBill.BillDescription.Length;
+                    string[] newDescription = newBill.BillDescription;
+                    newDescription[lenght] = ID[0];
+                    newBill.BillDescription = newDescription;
+                   
+                }
+                newBill.Total += total * tempProduct.ProductPrize;
             }
             else
             {
