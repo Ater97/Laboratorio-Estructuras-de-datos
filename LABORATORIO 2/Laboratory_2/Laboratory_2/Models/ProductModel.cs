@@ -21,7 +21,7 @@ namespace Laboratory_2.Models
 
         
         [Display(Name = "Cantidad en inventario")]
-        public long ProductCount { get; set; }
+        public double ProductCount { get; set; }
 
         public int CompareTo(ProductModel other)
         {

@@ -319,32 +319,39 @@ namespace Laboratory_2.Controllers
         }
         public BillsModel AddDescription(string serie, int correlative, string[] ID, double total)
         {
-            string[] names = { "Descripcion pendiente" };
+            
             BillsModel newBill = SearchElement(serie + correlative);
             ProductModel tempProduct = SearchProduct(ID[0]);
-            if (tempProduct != null)
+            if (tempProduct != null && tempProduct.ProductCount > 0 && tempProduct.ProductCount >= total)
             {
-                if (newBill.BillDescription == names )
+                if (newBill.BillDescription[0] == "Descripcion pendiente")
                 {
-                    newBill.BillDescription = ID;
+                    newBill.BillDescription[0] = tempProduct.ProductDescription;
+                    tempProduct.ProductCount = tempProduct.ProductCount = total;
+                    Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
                 }
                 else
                 {
                     int lenght = newBill.BillDescription.Length;
-                    string[] newDescription = newBill.BillDescription;
-                    newDescription[lenght] = ID[0];
+                    string[] newDescription = new string[lenght + 1];
+                    for (int i = 0; i < lenght; i++)
+                    {
+                        newDescription[i] = newBill.BillDescription[i] + ", ";
+                    }
+                    newDescription[lenght] = tempProduct.ProductDescription;
                     newBill.BillDescription = newDescription;
-                   
+                    tempProduct.ProductCount = tempProduct.ProductCount = total;
+                    Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
+
                 }
                 newBill.Total += total * tempProduct.ProductPrize;
             }
             else
             {
-                string[] descrip = { "No se encontro el prodcuto en el inventario" };
+                string[] descrip = { "Error: no se encontraron suficientes productos en el inventario" };
                 newBill.BillDescription = descrip;
-                total = 00.00;
+                newBill.Total = 00;
             }
-            newBill.Total = total;
 
             return newBill;
         }

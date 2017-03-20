@@ -76,7 +76,7 @@ namespace Laboratory_2.Controllers
                         ProductID = Result[i].Trim(),
                         ProductDescription = Result[i + 1].Trim(),
                         ProductPrize = double.Parse(Result[i + 2].Trim()),
-                        ProductCount = long.Parse(Result[i + 3].Trim())
+                        ProductCount = double.Parse(Result[i + 3].Trim())
 
                     });
                     Singleton.Instance.ProductsBinaryTree.Add(newProduct);
@@ -116,7 +116,7 @@ namespace Laboratory_2.Controllers
                     ProductID = collection["ProductID"],
                     ProductDescription = collection["ProductDescription"],
                     ProductPrize = double.Parse(collection["ProductPrize"]),
-                    ProductCount = long.Parse(collection["ProductCount"])
+                    ProductCount = double.Parse(collection["ProductCount"])
 
                 });
                 Singleton.Instance.ProductsBinaryTree.Add(newProduct);
@@ -144,7 +144,7 @@ namespace Laboratory_2.Controllers
                 item.ProductID = id;
                 item.ProductDescription = collection["ProductDescription"];
                 item.ProductPrize = double.Parse(collection["ProductPrize"]);
-                item.ProductCount = long.Parse(collection["ProductCount"]);
+                item.ProductCount = double.Parse(collection["ProductCount"]);
 
                 if(Singleton.Instance.ProductsBinaryTree.Edit<string>(Comparar, id, item))
                 {
