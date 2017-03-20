@@ -4,88 +4,109 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<div>
-    <p>
-        @Html.ActionLink("Subir archivo", "UploadProduct")
-    </p>
-    <p>
-        @Html.ActionLink("Agregar nuevo producto", "Create")
-    </p>
-    <p>
-        @Html.ActionLink("Descargar archivo", "DownloadProduct")
-    </p>
-    
+<div class="jumbotron">
+    <Center>
+        <font color="black">
+            <h2>Productos</h2>
+        </font>
+        
+        <hr align="CENTER" size="2" width="600" color="White" noshade />
+    </Center>
+
+    <div align ="right">
+        <p>
+            @using (Html.BeginForm("UploadProduct", "Product",FormMethod.Get))
+            {
+               <input type="submit" value="" class="upload" />
+            }
+
+            @using (Html.BeginForm("DownloadProduct", "Product", FormMethod.Get))
+            {
+                <input type="submit" value="" class="download" />
+            }
+
+            @Html.ActionLink("Descargar archivo", "DownloadProduct")
+        </p>
+    </div>
+
+    @using (Html.BeginForm("Search", "Product", FormMethod.Post))
+    {
+        <font size ="3" color="black">
+            <p>
+                Buscar Producto
+                <input type="text" name="text" placeholder="-Código del producto-">
+                <input type="submit" value="Buscar" />
+            </p>
+        </font>
+    }
+
+    <div align="center">
+        <font color="red">
+            <h4>@ViewBag.Error</h4>
+        </font>
+        <font color="#24AAFF">
+            @ViewBag.Error1
+        </font>
+        <p>
+            @ViewBag.Error2
+        </p>
+    </div>
 </div>
 
-
-@using (Html.BeginForm("Search", "Product", FormMethod.Post))
-{
-    <p>
-        Buscar Producto
-        <input type="text" name="text" placeholder="-Código del producto-">
-        <input type="submit" value="Buscar" />
-    </p>
-}
-
-<div align="center">
-    <font color="red">
-        <h4>@ViewBag.Error</h4>
-    </font>
-    <font color="#24AAFF">
-        @ViewBag.Error1
-    </font>
-    <p>
-        @ViewBag.Error2
-    </p>
-</div>
 
 <div ALIGN="right">
     <h4> @ViewBag.Message </h4>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductPrize)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductCount)
-        </th>
-        <th></th>
-    </tr>
+<div class="jumbotron">
+    <div class="container">
+        <font size="2" color="black">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductPrize)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductCount)
+                    </th>
+                    <th></th>
+                </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductPrize)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductCount)
-        </td>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductPrize)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductCount)
+                        </td>
 
-        @if (item != null)
-        {
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })
-            </td>
-        }  
-    </tr>
-}
+                        @if (item != null)
+                        {
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })
+                            </td>
+                        }
+                    </tr>
+                }
 
-</table>
+            </table>
+        </font>
+    </div>
+</div>

@@ -4203,6 +4203,23 @@ textarea.input-group-sm > .input-group-btn > .btn {
   text-decoration: none;
 }
 
+.upload{
+    background:url(../Images/Icons/Subir.png);
+    background-size:auto;
+    background-color:lightgray;
+    width: 35px;
+    height: 35px;
+}
+
+.download{
+    background:url(../Images/Icons/Descarga.png);
+    background-size:auto;
+    background-color:lightgray;
+    width: 35px;
+    height: 35px;
+}
+
+
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand {
     margin-left: -15px;
