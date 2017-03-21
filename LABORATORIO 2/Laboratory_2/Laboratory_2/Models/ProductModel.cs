@@ -28,5 +28,13 @@ namespace Laboratory_2.Models
             return ProductID.CompareTo(other.ProductID);
         }
 
+        public string MultiInformation
+        {
+            get
+            {
+                string res = ProductDescription + "  Q" + ProductPrize.ToString();
+                return res;
+            }
+        }
     }
 }

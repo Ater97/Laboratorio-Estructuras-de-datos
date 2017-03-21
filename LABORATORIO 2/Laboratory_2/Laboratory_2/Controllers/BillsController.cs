@@ -209,8 +209,20 @@ namespace Laboratory_2.Controllers
         public MultiSelectList GetProducts(string[] selectedValues)
         {
             List<ProductModel> Products = Singleton.Instance.ProductsBinaryTree.InOrden();
+            //List<ProductModel> Products = new List<ProductModel>()
+            //{
+            //    new ProductModel() { ProductID = "Id1", ProductDescription="des1",ProductPrize = 11,ProductCount=11 },
 
-            return new MultiSelectList(Products, "ProductID", "ProductDescription", selectedValues);
+            //    new ProductModel() { ProductID = "Id2", ProductDescription="des2",ProductPrize = 12,ProductCount=12},
+
+            //    new ProductModel() { ProductID = "Id3", ProductDescription="des3",ProductPrize = 13,ProductCount=13},
+
+            //    new ProductModel() {ProductID = "Id4", ProductDescription="des4",ProductPrize = 14,ProductCount=14 },
+
+            //    new ProductModel() { ProductID = "Id15", ProductDescription="des15",ProductPrize = 15,ProductCount=15 }
+            //};
+
+            return new MultiSelectList(Products, "ProductID", "MultiInformation", selectedValues);
 
         }
 
