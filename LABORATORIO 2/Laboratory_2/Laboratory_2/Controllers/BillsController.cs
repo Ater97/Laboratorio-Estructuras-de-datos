@@ -137,10 +137,10 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-                if (Singleton.Instance.flags[0] && Singleton.Instance.flags[1])
+                if (Singleton.Instance.flags[0])
                 {
-                    ViewBag.Message = "Si desea ingresar mas de un produto en la descripion: separelos por *";
                     // TODO: Add insert logic here
+                    string[] des = { "Descripcion pendiente" };
                     BillsModel newBillModel = (new BillsModel
                     {
                         Serie = (collection["Serie"]) + "|",
@@ -148,8 +148,8 @@ namespace Laboratory_2.Controllers
                         Name = collection["Name"],
                         NIT = collection["NIT"],
                         SaleDate = collection["SaleDate"],
-                        BillDescription = { },
-                        Total = 00.00,
+                        BillDescription = des,
+                        Total = 00,
                     });
                     Singleton.Instance.BillsBinaryTree.Add(newBillModel);
                     Singleton.Instance.TempBillId = (collection["Serie"]) + "|" + (collection["Correlative"]);
@@ -185,17 +185,18 @@ namespace Laboratory_2.Controllers
                 string selectedValues = form["Products"];
                 ViewBag.Productslist = GetProducts(selectedValues.Split(','));
                 string[] idProducts = ViewBag.Productslist.SelectedValues;
-                string[] newDescription = { "" };
-                double newTotal = 00.00;
+                string[] newDescription = new string[idProducts.Count<string>()];
+                double newTotal = 1;
+                BillsModel newBill = SearchElement(Singleton.Instance.TempBillId);
                 for (int i = 0; i < idProducts.Count<string>(); i++)
                 {
                     ProductModel newProduct = SearchProduct(idProducts[i]);
-                    newDescription[i] = newProduct.ProductID;
-                    newTotal += newProduct.ProductPrize;
+                    newDescription[0] = newProduct.ProductID;
+                    
+                    string[] idbill = Singleton.Instance.TempBillId.Split('|');
+                    newBill = AddDescription(idbill[0] + "|", int.Parse(idbill[1]), newDescription, newTotal);
+                    Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, Singleton.Instance.TempBillId, newBill);
                 }
-                string[] idbill = Singleton.Instance.TempBillId.Split('|');
-                BillsModel newBill = AddDescription(idbill[0], int.Parse(idbill[1]), newDescription, newTotal);
-                Singleton.Instance.BillsBinaryTree.Edit<string>(Comparar, Singleton.Instance.TempBillId, newBill);
                 Singleton.Instance.TempBillId = "";
             }
             catch
@@ -327,7 +328,7 @@ namespace Laboratory_2.Controllers
                 if (newBill.BillDescription[0] == "Descripcion pendiente")
                 {
                     newBill.BillDescription[0] = tempProduct.ProductDescription;
-                    tempProduct.ProductCount = tempProduct.ProductCount = total;
+                    tempProduct.ProductCount = tempProduct.ProductCount - total;
                     Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
                 }
                 else
