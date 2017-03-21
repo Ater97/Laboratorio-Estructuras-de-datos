@@ -176,7 +176,7 @@ namespace Laboratory_2.UtilitiesClass
                 parent.SetRight(left);
             }
 
-            left.Balance++;
+            left.Balance--;
             node.Balance = -left.Balance;
 
             return left;

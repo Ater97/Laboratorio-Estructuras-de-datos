@@ -137,7 +137,7 @@ namespace Laboratory_2.Controllers
                 string Data = System.Text.Encoding.UTF8.GetString(binData);
                 Data = Data.Replace("\r\n", ",");
                 string[] Result = Data.Split(',');
-                for (int i = 0; i < (Result.Length - 1); i = i + 7)
+                for (int i = 0; i < (Result.Length); i = i + 7)
                 {
                     //string[] description = { Result[i+5] };
                     BillsModel newBill = (new BillsModel
@@ -152,7 +152,7 @@ namespace Laboratory_2.Controllers
                     });
                     Singleton.Instance.BillsBinaryTree.Add(newBill);
                 }
-                Singleton.Instance.flags[1] = true;
+
                 return RedirectToAction("Index");
             }
             catch(Exception e)
