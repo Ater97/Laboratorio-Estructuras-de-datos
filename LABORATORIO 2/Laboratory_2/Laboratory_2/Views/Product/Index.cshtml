@@ -46,16 +46,24 @@
     </div>
     
 
-    @using (Html.BeginForm("Search", "Product", FormMethod.Post))
-    {
-        <font size ="3" color="black">
-            <p>
-                Buscar Producto
-                <input type="text" name="text" placeholder="-Código del producto-">
-                <input type="submit" value="Buscar" />
-            </p>
-        </font>
-    }
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Busqueda de productos</h3>
+        </div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Search", "Product", FormMethod.Post))
+            {
+                <font size="3" color="black">
+                    <p>
+                        <input type="text" name="text" placeholder="-Código del producto-">
+                        <input type="submit" value="Buscar" />
+                    </p>
+                </font>
+            }
+        </div>
+    </div>
+
 
     <div align="center">
         <font color="red">
@@ -70,12 +78,13 @@
     </div>
 </div>
 
-
-<div ALIGN="right">
-    <h4> @ViewBag.Message </h4>
-</div>
-
 <div class="jumbotron">
+    <font color="black">
+        <div ALIGN="right">
+            <h4> @ViewBag.Message </h4>
+        </div>
+    </font>
+
     <div class="container">
         <font size="2" color="black">
             <table class="table">
@@ -114,9 +123,37 @@
                         @if (item != null)
                         {
                             <td>
-                                @Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
+
+                                <div class="alinear">
+                                    <div class="alinear">
+                                        @using (Html.BeginForm("Edit", "Product", new { id = item.ProductID }, FormMethod.Get))
+                                        {
+                                            <font color="black" size="3">
+                                                <input type="submit" value="" class="edit" title="Editar" />
+                                            </font>
+                                        }
+                                    </div>
+
+                                    <div class="alinear">
+                                        @using (Html.BeginForm("Details", "Product", new { id = item.ProductID }, FormMethod.Get))
+                                        {
+                                            <font color="black" size="3">
+                                                <input type="submit" value="" class="details" title="Detalles" />
+                                            </font>
+                                        }
+                                    </div>
+
+                                    <div class="alinear">
+                                        @using (Html.BeginForm("Delete", "Product", new {id = item.ProductID}, FormMethod.Get))
+                                        {
+                                            <input type="submit" value="" class="delete" title="Eliminar" />
+                                        }
+                                    </div>
+                                </div>
+
+                                @*@Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
                                 @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
-                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })*@
                             </td>
                         }
                     </tr>

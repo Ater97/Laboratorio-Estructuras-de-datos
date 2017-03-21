@@ -4231,6 +4231,32 @@ textarea.input-group-sm > .input-group-btn > .btn {
     height: 32px;
 }
 
+.edit{
+    background:url(../Images/Icons/Editar.png);
+    border:none;
+    background-size:auto;
+    background-color:#eeeeee;
+    width: 24px;
+    height: 24px;
+}
+
+.details{
+    background:url(../Images/Icons/Detalles.png);
+    border:none;
+    background-size:auto;
+    background-color:#eeeeee;
+    width: 24px;
+    height: 24px;
+}
+.delete{
+    background:url(../Images/Icons/Eliminar.png);
+    border:none;
+    background-size:auto;
+    background-color:#eeeeee;
+    width: 24px;
+    height: 24px;
+}
+
 .alinear{
     overflow:hidden;
     display: inline;
