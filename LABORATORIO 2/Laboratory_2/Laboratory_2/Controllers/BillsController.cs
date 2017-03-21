@@ -327,7 +327,7 @@ namespace Laboratory_2.Controllers
             {
                 if (newBill.BillDescription[0] == "Descripcion pendiente")
                 {
-                    newBill.BillDescription[0] = tempProduct.ProductDescription;
+                    newBill.BillDescription[0] = tempProduct.ProductDescription + " X " + total;
                     tempProduct.ProductCount = tempProduct.ProductCount - total;
                     Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
                 }
@@ -339,7 +339,7 @@ namespace Laboratory_2.Controllers
                     {
                         newDescription[i] = newBill.BillDescription[i] + ", ";
                     }
-                    newDescription[lenght] = tempProduct.ProductDescription;
+                    newDescription[lenght] = tempProduct.ProductDescription + " X " + total;
                     newBill.BillDescription = newDescription;
                     tempProduct.ProductCount = tempProduct.ProductCount = total;
                     Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
