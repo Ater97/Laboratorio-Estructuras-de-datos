@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -115,6 +115,49 @@ namespace Laboratory_2.Controllers
             catch
             {
                 ViewBag.Message = "Ocurrió un error al subir el archivo, por favor revise el formato.";
+                return View();
+            }
+        }
+
+
+        public ActionResult UploadBillPablo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadBillPablo(HttpPostedFileBase file)
+        {
+            try
+            {
+                if (file == null) { ViewBag.Message = "Ocurrió un error. Por favor seleccione un archivo"; return View("UploadBillPablo"); }
+                BinaryReader b = new BinaryReader(file.InputStream);
+                byte[] binData = b.ReadBytes(file.ContentLength);
+
+                string Data = System.Text.Encoding.UTF8.GetString(binData);
+                Data = Data.Replace("\r\n", ",");
+                string[] Result = Data.Split(',');
+                for (int i = 0; i < (Result.Length - 1); i = i + 7)
+                {
+                    //string[] description = { Result[i+5] };
+                    BillsModel newBill = (new BillsModel
+                    {
+                        Serie = Result[i] + "|",
+                        Correlative = int.Parse(Result[i + 1]),
+                        Name = Result[i + 2],
+                        NIT = Result[i + 3],
+                        SaleDate = Result[i + 4],
+                        BillDescription = new string[] { Result[i + 5] },
+                        Total = double.Parse(Result[i + 6])
+                    });
+                    Singleton.Instance.BillsBinaryTree.Add(newBill);
+                }
+                Singleton.Instance.flags[1] = true;
+                return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                ViewBag.Message = e.Message;
                 return View();
             }
         }
