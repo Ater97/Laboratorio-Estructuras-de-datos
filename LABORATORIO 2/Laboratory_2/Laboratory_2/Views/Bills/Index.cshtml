@@ -5,14 +5,35 @@
 }
 
 <h2>Index</h2>
+
+<Center>
+    <h4> Carga de Archivos con detalles incluidos.</h4>
+    <hr align="CENTER" size="3" width="800" color="white" noshade />
+</Center>
+
+<p>
+    @Html.ActionLink("Subir Archivo", "UploadBillPablo");
+</p>
+
+<center>
+    <h4> Carga de Archivos con detalles por aparte.</h4>
+    <hr align="CENTER" size="3" width="800" color="white" noshade />
+</center>
+
 <p>
     @Html.ActionLink("Subir archivo", "UploadBill")
 </p>
 <p>
     @Html.ActionLink("Subir archivo de detalles", "UploadBillDescription")
 </p>
+
+<center>
+    <h4> Crear una nueva factura</h4>
+    <hr align="CENTER" size="3" width="800" color="white" noshade />
+</center>
+
 <p>
-    @Html.ActionLink("Crear una nueva factura", "Create")
+    @Html.ActionLink("Crear factura", "Create")
 </p>
 
 <div ALIGN="right">
