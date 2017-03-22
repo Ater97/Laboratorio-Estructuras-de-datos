@@ -21,7 +21,28 @@ namespace Laboratory_2.Controllers
 
             return View(mostrar);
         }
+        [HttpPost]
+        public ActionResult Search(string serie, string correlative)
+        {
+            try
+            {
+                BillsModel temp = SearchElement(serie + "|" + correlative);
 
+                if (temp == null)
+                {
+                    ViewBag.Message = "Cantidad de elementos: " + Singleton.Instance.BillsBinaryTree.GetCount();
+                    ViewBag.Error = "Error";
+                    ViewBag.Error1 = "El elemento buscado no se ha encontrado en la base de datos.";
+                    ViewBag.Error2 = "Vuelva a intentarlo de nuevo.";
+                    return View("Index", Singleton.Instance.BillsBinaryTree);
+                }
+                return View("Details", temp);
+            }
+            catch
+            {
+                return View("Index");
+            }
+        }
         public ActionResult UploadBillDescription()
         {
             return View();
