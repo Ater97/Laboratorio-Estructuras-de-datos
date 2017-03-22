@@ -425,18 +425,24 @@ namespace Laboratory_2.Controllers
             }
             else
             {
-                int lenght = newBill.BillDescription.Length;
-                string[] newDescription = new string[lenght + 1];
-                for (int i = 0; i < lenght; i++)
-                {
-                    newDescription[i] = newBill.BillDescription[i] + ", ";
-                }
-                newDescription[lenght] =  "Error: no se encontraron suficientes productos en el inventario" ;
-                newBill.BillDescription = newDescription;
+                string[] descrip = { "Error: no se encontraron suficientes productos en el inventario" };
+                newBill.BillDescription = descrip;
+                newBill.Total = 00;
             }
 
             return newBill;
         }
+      /// <summary>
+      /// Check the existence of the product
+      /// </summary>
+      /// <param name="id"></param>
+      /// <returns>true if the product is in the inventory.</returns>
+        //public bool CheckProductsExistence(string id)
+        //{
+        //    if (SearchProduct(id) == null)
+        //        return false;
+        //    return true;
+        //}
 
     }
 }
