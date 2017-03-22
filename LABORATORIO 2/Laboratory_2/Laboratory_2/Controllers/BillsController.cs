@@ -399,22 +399,23 @@ namespace Laboratory_2.Controllers
             
             BillsModel newBill = SearchElement(serie + correlative);
             ProductModel tempProduct = SearchProduct(ID[0]);
+            int lenght = newBill.BillDescription.Length;
+            string[] newDescription = new string[lenght + 1];
+            for (int i = 0; i < lenght; i++)
+            {
+                newDescription[i] = newBill.BillDescription[i] + ", ";
+            }
             if (tempProduct != null && tempProduct.ProductCount > 0 && tempProduct.ProductCount >= total)
             {
+                tempProduct.ProductCount = tempProduct.ProductCount - total;
+                Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
                 if (newBill.BillDescription[0] == "Descripcion pendiente")
                 {
                     newBill.BillDescription[0] = tempProduct.ProductDescription + " X " + total;
-                    tempProduct.ProductCount = tempProduct.ProductCount - total;
-                    Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
                 }
                 else
                 {
-                    int lenght = newBill.BillDescription.Length;
-                    string[] newDescription = new string[lenght + 1];
-                    for (int i = 0; i < lenght; i++)
-                    {
-                        newDescription[i] = newBill.BillDescription[i] + ", ";
-                    }
+                  
                     newDescription[lenght] = tempProduct.ProductDescription + " X " + total;
                     newBill.BillDescription = newDescription;
                     tempProduct.ProductCount = tempProduct.ProductCount = total;
@@ -425,9 +426,8 @@ namespace Laboratory_2.Controllers
             }
             else
             {
-                string[] descrip = { "Error: no se encontraron suficientes productos en el inventario" };
-                newBill.BillDescription = descrip;
-                newBill.Total = 00;
+                newDescription[lenght] = "Error: no se encontraron suficientes productos en el inventario" ;
+                newBill.BillDescription = newDescription;
             }
 
             return newBill;
