@@ -158,9 +158,8 @@ namespace Laboratory_2.Controllers
                 string Data = System.Text.Encoding.UTF8.GetString(binData);
                 Data = Data.Replace("\r\n", ",");
                 string[] Result = Data.Split(',');
-                for (int i = 0; i < (Result.Length); i = i + 7)
+                for (int i = 0; i < VerverifyLenght(Result.Length,7); i = i + 7)
                 {
-                    //string[] description = { Result[i+5] };
                     BillsModel newBill = (new BillsModel
                     {
                         Serie = Result[i] + "|",
@@ -171,7 +170,9 @@ namespace Laboratory_2.Controllers
                         BillDescription = new string[] { Result[i + 5] },
                         Total = double.Parse(Result[i + 6])
                     });
-                    Singleton.Instance.BillsBinaryTree.Add(newBill);
+
+                        Singleton.Instance.BillsBinaryTree.Add(CheckDescriptionPablo(newBill));
+                        //Singleton.Instance.BillsBinaryTree.Add(newBill);
                 }
 
                 return RedirectToAction("Index");
@@ -415,12 +416,8 @@ namespace Laboratory_2.Controllers
                 }
                 else
                 {
-                  
                     newDescription[lenght] = tempProduct.ProductDescription + " X " + total;
                     newBill.BillDescription = newDescription;
-                    tempProduct.ProductCount = tempProduct.ProductCount = total;
-                    Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
-
                 }
                 newBill.Total += total * tempProduct.ProductPrize;
             }
@@ -432,17 +429,58 @@ namespace Laboratory_2.Controllers
 
             return newBill;
         }
-      /// <summary>
-      /// Check the existence of the product
-      /// </summary>
-      /// <param name="id"></param>
-      /// <returns>true if the product is in the inventory.</returns>
-        //public bool CheckProductsExistence(string id)
-        //{
-        //    if (SearchProduct(id) == null)
-        //        return false;
-        //    return true;
-        //}
+        public BillsModel CheckDescriptionPablo(BillsModel newBill)
+        {
+
+            int lenght = newBill.BillDescription.Length;
+            string[] newDescription = new string[lenght + 1];
+
+            for (int i = 0; i < lenght; i++)
+            {
+                try
+                {
+                    ProductModel tempProduct = SearchProduct(newBill.BillDescription[i]);
+
+                    if (tempProduct != null)
+                    {
+                        for (int j = 0; j < lenght; j++)
+                        {
+                            newDescription[j] = newBill.BillDescription[j] + ", ";
+                        }
+                    }
+
+                    if (tempProduct != null && tempProduct.ProductCount > 0)
+                    {
+                        tempProduct.ProductCount--;
+                        Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
+
+                        if (lenght == 1)
+                        {
+                            newBill.BillDescription[0] = tempProduct.ProductDescription + " X " + tempProduct.ProductPrize.ToString();
+                        }
+                        else
+                        {
+                            newDescription[lenght] = tempProduct.ProductDescription + " X " + tempProduct.ProductPrize.ToString();
+                            newBill.BillDescription = newDescription;
+                        }
+                    }
+                    else
+                    {
+                        newDescription[i] = "Error: no se encontraron suficientes productos en el inventario";
+                        newBill.BillDescription = newDescription;
+                        newBill.Total = 0;
+                    }
+                }
+                catch
+                {
+                    newDescription[i] = "Error: no se encontraron suficientes productos en el inventario";
+                    newBill.BillDescription = newDescription;
+                    newBill.Total = 0;
+                }
+            }
+            return newBill;
+        }
+
 
     }
 }
