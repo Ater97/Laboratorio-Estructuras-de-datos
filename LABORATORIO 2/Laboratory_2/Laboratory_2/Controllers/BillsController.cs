@@ -16,9 +16,6 @@ namespace Laboratory_2.Controllers
         {
             ViewBag.Message = "Cantidad de Facturas: " + Singleton.Instance.BillsBinaryTree.GetCount();
             List<BillsModel> mostrar = Singleton.Instance.BillsBinaryTree.InOrden();
-
-            //List<BillsModel> mostrar = Singleton.Instance.BillsBinaryTree.InOrden();
-
             return View(mostrar);
         }
         [HttpPost]
@@ -436,50 +433,29 @@ namespace Laboratory_2.Controllers
 
             int lenght = newBill.BillDescription.Length;
             string[] newDescription = new string[lenght + 1];
-
-            for (int i = 0; i < lenght; i++)
+            try
             {
-                try
+                ProductModel tempProduct = SearchProduct(newBill.BillDescription[0]);
+                if (tempProduct != null && tempProduct.ProductCount > 0)
                 {
-                    ProductModel tempProduct = SearchProduct(newBill.BillDescription[i]);
-
-                    if (tempProduct != null)
-                    {
-                        for (int j = 0; j < lenght; j++)
-                        {
-                            newDescription[j] = newBill.BillDescription[j] + ", ";
-                        }
-                    }
-
-                    if (tempProduct != null && tempProduct.ProductCount > 0)
-                    {
-                        tempProduct.ProductCount--;
-                        Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
-
-                        if (lenght == 1)
-                        {
-                            newBill.BillDescription[0] = tempProduct.ProductDescription + " X " + tempProduct.ProductPrize.ToString();
-                        }
-                        else
-                        {
-                            newDescription[lenght] = tempProduct.ProductDescription + " X " + tempProduct.ProductPrize.ToString();
-                            newBill.BillDescription = newDescription;
-                        }
-                    }
-                    else
-                    {
-                        newDescription[i] = "Error: no se encontraron suficientes productos en el inventario";
-                        newBill.BillDescription = newDescription;
-                        newBill.Total = 0;
-                    }
+                    tempProduct.ProductCount--;
+                    Singleton.Instance.ProductsBinaryTree.Edit<string>(CompararProducto, tempProduct.ProductID, tempProduct);
+                    newBill.BillDescription[0] = tempProduct.ProductDescription + " X " + tempProduct.ProductPrize.ToString();
                 }
-                catch
+                else
                 {
-                    newDescription[i] = "Error: no se encontraron suficientes productos en el inventario";
+                    newDescription[0] = "Error: no se encontraron suficientes productos en el inventario";
                     newBill.BillDescription = newDescription;
                     newBill.Total = 0;
                 }
             }
+            catch
+            {
+                newDescription[0] = "Error: no se encontraron suficientes productos en el inventario";
+                newBill.BillDescription = newDescription;
+                newBill.Total = 0;
+            }
+
             return newBill;
         }
 
