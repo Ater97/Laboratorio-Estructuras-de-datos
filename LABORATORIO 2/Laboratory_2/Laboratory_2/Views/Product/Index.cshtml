@@ -33,10 +33,9 @@
                 }
             </div>
 
-            <div 
-                 class="alinear">
+            <div class="alinear">
                 @using (Html.BeginForm("Create", "Product", FormMethod.Get))
-            {
+                {
                     <font color="black" size="3">
                         <input type="submit" value="" class="add" title="Agregar un producto" />
                     </font>
@@ -144,16 +143,12 @@
                                     </div>
 
                                     <div class="alinear">
-                                        @using (Html.BeginForm("Delete", "Product", new {id = item.ProductID}, FormMethod.Get))
+                                        @using (Html.BeginForm("Delete", "Product", new { id = item.ProductID }, FormMethod.Get))
                                         {
                                             <input type="submit" value="" class="delete" title="Eliminar" />
                                         }
                                     </div>
                                 </div>
-
-                                @*@Html.ActionLink("Editar", "Edit", new { id = item.ProductID }) |
-                                @Html.ActionLink("Detalles", "Details", new { id = item.ProductID }) |
-                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductID })*@
                             </td>
                         }
                     </tr>

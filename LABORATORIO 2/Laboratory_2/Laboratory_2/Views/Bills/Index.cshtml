@@ -4,101 +4,152 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="jumbotron">
+    <font color="black">
+        <center>
+            <h2>Facturas</h2>
+        </center>
 
-<Center>
-    <h4> Carga de Archivos con detalles incluidos.</h4>
-    <hr align="CENTER" size="3" width="800" color="white" noshade />
-</Center>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Carga de archivo con facturas que incluyen detalles</h3>
+            </div>
+            <div class="panel-body">
 
-<p>
-    @Html.ActionLink("Subir Archivo", "UploadBillPablo");
-</p>
+                @using (Html.BeginForm("UploadBillPablo", "Bills", FormMethod.Post))
+                {
+                    <center>
+                        <button type="submit"><img src="../Images/Icons/Subir3.png" alt="x" /> Cargar</button>
+                    </center>
+                }
+            </div>
+        </div>
 
-<center>
-    <h4> Carga de Archivos con detalles por aparte.</h4>
-    <hr align="CENTER" size="3" width="800" color="white" noshade />
-</center>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Carga de archivo con facturas vacias </h3>
+            </div>
+            <div class="panel-body">
 
-<p>
-    @Html.ActionLink("Subir archivo", "UploadBill")
-</p>
-<p>
-    @Html.ActionLink("Subir archivo de detalles", "UploadBillDescription")
-</p>
+                @using (Html.BeginForm("UploadBill", "Bills", FormMethod.Post))
+                {
+                    <center>
+                        <button type="submit"><img src="../Images/Icons/Subir3.png" alt="x" /> Cargar</button>
+                    </center>
+                }
+            </div>
 
-<center>
-    <h4> Crear una nueva factura</h4>
-    <hr align="CENTER" size="3" width="800" color="white" noshade />
-</center>
+            <div class="panel-heading">
+                <h3 class="panel-title">Carga de archivo con detalles de las facturas</h3>
+            </div>
+            <div class="panel-body">
 
-<p>
-    @Html.ActionLink("Crear factura", "Create")
-</p>
+                @using (Html.BeginForm("UploadBillDescription", "Bills", FormMethod.Post))
+                {
+                    <center>
+                        <button type="submit"><img src="../Images/Icons/Subir3.png" alt="x" /> Cargar</button>
+                    </center>                  
+                }
+            </div>
+        </div>
 
-<div ALIGN="right">
-    <h4> @ViewBag.Message </h4>
+        <div class="container">
+            <div align="right">
+                <div class="alinear">
+                    @using (Html.BeginForm("Create", "Bills", FormMethod.Get))
+                    {
+                        <font color="black" size="3">
+                            <label class="label"> Crear nueva factura</label>
+                            <input type="submit" value="" class="add" title="Agregar factura" />
+                        </font>
+                    }
+                </div>
+            </div>
+
+            <font size="2">
+                <div align="center">
+                    <h3>Facturas Actuales</h3>
+                </div>
+                <div ALIGN="right">
+                    <h4> @ViewBag.Message </h4>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Serie)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Correlative)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NIT)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SaleDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Total)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Serie)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correlative)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NIT)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SaleDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BillDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Total)
+                            </td>
+                            @if (item != null)
+                            {
+                                <td>
+                                    <div class="alinear">
+                                        <div class="alinear">
+                                            @using (Html.BeginForm("Details", "Bills", new { id = item.Serie + item.Correlative.ToString() }, FormMethod.Get))
+                    {
+                                                <font color="black" size="3">
+                                                    <input type="submit" value="" class="details" title="Detalles" />
+                                                </font>
+                                            }
+                                        </div>
+
+                                        <div class="alinear">
+                                            @using (Html.BeginForm("Delete", "Bills", new { id = item.Serie + item.Correlative.ToString() }, FormMethod.Get))
+                    {
+                                                <input type="submit" value="" class="delete" title="Eliminar" />
+                                            }
+                                        </div>
+                                    </div>
+
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </font>         
+        </div>
+    </font>
 </div>
 
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Serie)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Correlative)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NIT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SaleDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BillDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Total)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Serie)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Correlative)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NIT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SaleDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BillDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-        @if (item != null)
-        {
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id = item.Serie + item.Correlative.ToString() }) |*@
-            @Html.ActionLink("Details", "Details", new { id = item.Serie + item.Correlative.ToString() }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Serie + item.Correlative.ToString() })
-        </td>
-        }
-    </tr>
-}
-
-</table>

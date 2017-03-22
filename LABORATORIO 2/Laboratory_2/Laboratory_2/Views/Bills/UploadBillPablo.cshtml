@@ -3,19 +3,40 @@
     ViewBag.Title = "UploadBillPablo";
 }
 
-<h2>UploadBill</h2>
 
-@using (Html.BeginForm("UploadBillPablo", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" name="file" />
-    <button type="submit">Subir archivo</button>
-}
-<div ALIGN="right">
-    <h4> @ViewBag.Message </h4>
+<div class="jumbotron">
+    <font color="black">
+        <center>
+            <h2>Cargar Archivo</h2>
+        </center>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Seleccione el archivo que contiene las facturas con detalles de productos: </h4>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UploadBillPablo", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <center>
+                        <input type="file" name="file" />
+                        <button type="submit"><img src="../Images/Icons/Guardar.png" alt="x" /> Subir</button>
+                    </center>                   
+                }
+                <div ALIGN="right">
+                    <h4> @ViewBag.Message </h4>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @using (Html.BeginForm("Index", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <button type="submit"><img src="../Images/Icons/Regresar.png" alt="x" /> Regresar</button>
+            }
+        </div>
+            
+    </font>
 </div>
-<p>
-<p>
-    @Html.ActionLink("Regresar", "Index")
-</p>
+
 
 
