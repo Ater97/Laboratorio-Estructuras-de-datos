@@ -51,6 +51,24 @@
                     </center>                  
                 }
             </div>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Busqueda de facturas</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Search", "Bills", FormMethod.Post))
+            {
+                    <font size="3" color="black">
+                        <p>
+                            <input type="text" name="Serie" placeholder="-Serie de la factura-">
+                            <input type="text" name="Correlative" placeholder="-Correlativo de la factura-">
+                            <input type="submit" value="Buscar" />
+                        </p>
+                    </font>
+                }
+            </div>
         </div>
 
         <div class="container">
