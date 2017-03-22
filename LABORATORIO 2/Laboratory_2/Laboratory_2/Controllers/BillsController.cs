@@ -26,7 +26,7 @@ namespace Laboratory_2.Controllers
         {
             try
             {
-                BillsModel temp = SearchElement(serie + "|" + correlative);
+                BillsModel temp = SearchElement((serie + "|" + correlative).Trim());
 
                 if (temp == null)
                 {
@@ -376,7 +376,9 @@ namespace Laboratory_2.Controllers
 
         public static int Comparar<E>(BillsModel product, E elementoBuscar)
         {
-            return (product.Serie + product.Correlative.ToString()).CompareTo(elementoBuscar);
+            string aux = product.Serie + product.Correlative.ToString();
+            aux = aux.Trim();
+            return aux.CompareTo(elementoBuscar);
         }
 
         public BillsModel SearchElement(string id)
