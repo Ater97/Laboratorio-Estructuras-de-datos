@@ -142,7 +142,10 @@
                             @if (item != null)
                             {
                                 <td>
-                                    <div class="alinear">
+                                    @Html.ActionLink("Detalles", "Details", "Bills")|
+                                    @Html.ActionLink("Eliminar", "Delete", "Bills");
+                                    
+                                    @*<div class="alinear">
                                         <div class="alinear">
                                             @using (Html.BeginForm("Details", "Bills", new { id = item.Serie + item.Correlative.ToString() }, FormMethod.Get))
                     {
@@ -158,7 +161,7 @@
                                                 <input type="submit" value="" class="delete" title="Eliminar" />
                                             }
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                 </td>
                             }

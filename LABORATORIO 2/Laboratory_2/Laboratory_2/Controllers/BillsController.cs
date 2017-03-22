@@ -184,7 +184,7 @@ namespace Laboratory_2.Controllers
         // GET: Bills/Details/5
         public ActionResult Details(string id)
         {
-            return View(SearchElement(id));
+            return View(SearchElement(id.Trim()));
         }
 
         // GET: Bills/Create
@@ -249,10 +249,10 @@ namespace Laboratory_2.Controllers
                 string[] idProducts = ViewBag.Productslist.SelectedValues;
                 string[] newDescription = new string[idProducts.Count<string>()];
                 double newTotal = 1;
-                BillsModel newBill = SearchElement(Singleton.Instance.TempBillId);
+                BillsModel newBill = SearchElement(Singleton.Instance.TempBillId.Trim());
                 for (int i = 0; i < idProducts.Count<string>(); i++)
                 {
-                    ProductModel newProduct = SearchProduct(idProducts[i]);
+                    ProductModel newProduct = SearchProduct(idProducts[i].Trim());
                     newDescription[0] = newProduct.ProductID;
                     
                     string[] idbill = Singleton.Instance.TempBillId.Split('|');
@@ -333,7 +333,7 @@ namespace Laboratory_2.Controllers
         // GET: Bills/Delete/5
         public ActionResult Delete(string id)
         {
-            return View(SearchElement(id));
+            return View(SearchElement(id.Trim()));
         }
 
         // POST: Bills/Delete/5
@@ -354,7 +354,7 @@ namespace Laboratory_2.Controllers
 
         private bool DeleteBill(string id)
         {
-            TreeNode<BillsModel> Bill = Singleton.Instance.BillsBinaryTree.Search<string>(Comparar, id);
+            TreeNode<BillsModel> Bill = Singleton.Instance.BillsBinaryTree.Search<string>(Comparar, id.Trim());
             Singleton.Instance.BillsBinaryTree.Eliminate(Bill);
             return false;
         }
@@ -394,11 +394,12 @@ namespace Laboratory_2.Controllers
         {
             return product.ProductID.CompareTo(elementoBuscar);
         }
+
         public BillsModel AddDescription(string serie, int correlative, string[] ID, double total)
         {
             
-            BillsModel newBill = SearchElement(serie + correlative);
-            ProductModel tempProduct = SearchProduct(ID[0]);
+            BillsModel newBill = SearchElement((serie + correlative).Trim());
+            ProductModel tempProduct = SearchProduct(ID[0].Trim());
             int lenght = newBill.BillDescription.Length;
             string[] newDescription = new string[lenght + 1];
             for (int i = 0; i < lenght; i++)
@@ -428,6 +429,7 @@ namespace Laboratory_2.Controllers
 
             return newBill;
         }
+
         public BillsModel CheckDescriptionPablo(BillsModel newBill)
         {
 
@@ -435,7 +437,7 @@ namespace Laboratory_2.Controllers
             string[] newDescription = new string[lenght + 1];
             try
             {
-                ProductModel tempProduct = SearchProduct(newBill.BillDescription[0]);
+                ProductModel tempProduct = SearchProduct(newBill.BillDescription[0].Trim());
                 if (tempProduct != null && tempProduct.ProductCount > 0)
                 {
                     tempProduct.ProductCount--;
